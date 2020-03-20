@@ -12,9 +12,9 @@ export class UserAccountComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    this.user.name="default";
-    this.user.email="default@gmail.com";
-    this.user.password="123456";
+    this.user.name=localStorage.getItem("username");
+    this.user.email=localStorage.getItem("email");
+    this.user.password=localStorage.getItem("password");
   }
 
 }

@@ -13,10 +13,14 @@ export class LoginComponent implements OnInit {
   user: RegisterModel = new RegisterModel();
   loginForm: FormGroup;
   hide = true;
+  errorAuth: string;
 
   constructor(private firebaseServ: FirebaseServiceService) { }
 
   ngOnInit(): void {
+    this.firebaseServ.eventAuthError.subscribe(error => {
+      this.errorAuth = error;
+    });
     this.loginForm = new FormGroup({
       'email': new FormControl("", [
           Validators.required,
@@ -31,9 +35,10 @@ export class LoginComponent implements OnInit {
   }
 
   onLoginSubmit() {
-    console.log(this.loginForm.value);
     this.user.email = this.loginForm.value.email;
-    this.user.password = this.loginForm.value.passwordGroup.passwordFirst;
+    this.user.password = this.loginForm.value.password;
+    
+    this.firebaseServ.login(this.user.email,this.user.password);
   }
 
 }

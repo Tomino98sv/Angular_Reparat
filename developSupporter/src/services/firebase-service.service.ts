@@ -49,4 +49,19 @@ export class FirebaseServiceService {
       name: this.newUser.name
     });
   }
+
+  login(email:string, password: string) {
+    this.firAuth.auth.signInWithEmailAndPassword(email, password)
+    .catch(error => {
+      this.authError.next(error);
+    })
+    .then((userCredential: firebase.auth.UserCredential) => {
+      console.log(userCredential);
+      
+      localStorage.setItem("uid", userCredential.user.uid);
+      localStorage.setItem("email", userCredential.user.email);
+      localStorage.setItem("username", userCredential.additionalUserInfo.username);
+      localStorage.setItem("password", password);
+    })
+  }
 }
