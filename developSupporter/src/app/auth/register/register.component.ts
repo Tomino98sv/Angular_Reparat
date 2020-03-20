@@ -37,11 +37,6 @@ export class RegisterComponent implements OnInit {
       }, {validators: this.validationRepeatPassword})
       
     });
-    this.registerForm.statusChanges.subscribe(() => {
-      this.registerForm.get('passwordGroup').errors;
-
-    }
-    )
   }
 
   onRegisterSubmit() {
@@ -50,7 +45,7 @@ export class RegisterComponent implements OnInit {
 
   validationRepeatPassword(group: FormGroup) {
     let pass = group.get('passwordFirst').value;
-    let confirmPass = group.get('repeatPassword').value;    
+    let confirmPass = group.get('repeatPassword').value;
     return pass === confirmPass ? null : { 'notSame' : true };
   }
 }

@@ -83,9 +83,9 @@
                                 <mat-error *ngIf="registerForm.get('passwordGroup.repeatPassword').errors && registerForm.get('passwordGroup.repeatPassword').errors['required']">
                                     Repeate Password is <strong>required</strong>
                                 </mat-error>
-                                <mat-error *ngIf="registerForm.get('passwordGroup').errors && registerForm.get('passwordGroup').errors['notSame']">
-                                    Password and Repeated password must be same 
-                                </mat-error>
+                            </mat-error>
+                            <mat-error *ngIf="registerForm.get('passwordGroup').errors">
+                                Mame nejaku chybu
                             </mat-error>
                     </mat-form-field>
                 </ng-container>
