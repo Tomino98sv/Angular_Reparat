@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RegisterModel } from './../../models/register.model';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
+import { FirebaseServiceService } from 'src/services/firebase-service.service';
 
 
 @Component({
@@ -12,10 +13,23 @@ export class RegisterComponent implements OnInit {
   user: RegisterModel = new RegisterModel();
   registerForm: FormGroup;
   hide = true;
+  errorAuth: string;
 
-  constructor() { }
+  constructor(private firebaseServ: FirebaseServiceService) { }
 
   ngOnInit(): void {
+    this.firebaseServ.eventAuthError.subscribe(result => {
+      this.errorAuth = result;
+    });
+
+    this.firebaseServ.eventAuthCompletetion.subscribe(result => {
+      if(result) {
+        console.log("Done");
+      }else {
+        console.log("Horribly wrong");
+      }
+    })
+
     this.registerForm = new FormGroup({
       'name': new FormControl("", [
                 Validators.required,
@@ -41,6 +55,11 @@ export class RegisterComponent implements OnInit {
 
   onRegisterSubmit() {
     console.log(this.registerForm.value);
+    this.user.name = this.registerForm.value.name;
+    this.user.email = this.registerForm.value.email;
+    this.user.password = this.registerForm.value.passwordGroup.passwordFirst;
+
+    this.firebaseServ.createUser(this.user);
   }
 
   validationRepeatPassword(group: FormGroup) {

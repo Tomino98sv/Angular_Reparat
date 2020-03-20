@@ -7,21 +7,31 @@ import { HeaderComponent } from './header/header/header.component';
 import { MaterialModule } from 'modules/material.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AuthModule } from './auth/auth.module';
-import { ReactiveFormsModule } from '@angular/forms';
+import { UserAccountComponent } from './user-account/user-account.component';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { environment } from 'src/environments/environment.prod';
+import * as firebase from 'firebase';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent
+    HeaderComponent,
+    UserAccountComponent
   ],
   imports: [
-  BrowserModule,
+BrowserModule,
     BrowserAnimationsModule,
     MaterialModule,
     AuthModule,
-    AppRoutingModule
+    AppRoutingModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireAuthModule,
+    AngularFirestoreModule
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+ }
