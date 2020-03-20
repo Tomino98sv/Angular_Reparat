@@ -1,0 +1,32 @@
+<mat-toolbar color="primary" class="navbar">  
+    <span class="fill-remaining-space"></span>
+    <span>Develop Supporter</span>
+    <span class="fill-remaining-space"></span>
+    <div>
+        
+        <button 
+        mat-button 
+        class="mat-raised-button mat-primary"
+        routerLinkActive="active" 
+        routerLink="/"
+        (click)="clicked()" 
+        >Home</button>
+
+            <button
+            mat-button 
+            class="mat-raised-button mat-primary"
+            routerLinkActive="active" 
+            routerLink="/login"
+            (click)="clicked()"
+            >Login
+        </button>
+            <button
+            mat-button 
+            class="mat-raised-button mat-primary"
+            routerLinkActive="active" 
+            routerLink="/register"
+            (click)="clicked()"
+            >Registration
+        </button>
+    </div>
+  </mat-toolbar>
