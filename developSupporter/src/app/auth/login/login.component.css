@@ -14,3 +14,8 @@ mat-grid-list{
 }
 
 
+:host >>> .mat-figure{
+    align-items: start !important;
+  }
+
+

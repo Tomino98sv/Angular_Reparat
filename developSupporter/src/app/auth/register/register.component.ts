@@ -21,7 +21,8 @@ export class RegisterComponent implements OnInit {
     this.firebaseServ.eventAuthError.subscribe(result => {
       this.errorAuth = result;
     });
-
+    this.errorAuth=null;
+    
     this.firebaseServ.eventAuthCompletetion.subscribe(result => {
       if(result) {
         console.log("Done");
@@ -54,6 +55,7 @@ export class RegisterComponent implements OnInit {
   }
 
   onRegisterSubmit() {
+    this.errorAuth =null;
     console.log(this.registerForm.value);
     this.user.name = this.registerForm.value.name;
     this.user.email = this.registerForm.value.email;

@@ -1,5 +1,5 @@
 <form [formGroup]="registerForm" class="normal-form" (ngSubmit)="onRegisterSubmit()">
-    <mat-grid-list cols="1" rowHeight="300px">
+    <mat-grid-list cols="1">
         <mat-grid-tile>
             <div class="controles-container">
                 <mat-form-field>
@@ -95,18 +95,17 @@
                 mat-raised-button color="warn"
                 [disabled]="registerForm.invalid"
                 >Sign Up</button>
+                <div *ngIf="errorAuth" class="row mt-4">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class=".col-12 alert alert-danger">
+                               {{errorAuth}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-         
         </mat-grid-tile>
       
     </mat-grid-list>
-    <div class="row mt-4">
-        <div class="col-12">
-            <div class="row">
-                <div class=".col-12 alert alert-danger">
-                   {{errorAuth}}
-                </div>
-            </div>
-        </div>
-    </div>
 </form>

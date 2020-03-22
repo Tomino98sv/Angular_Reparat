@@ -1,5 +1,5 @@
 mat-grid-list{
-    min-height: 300px;
+    min-height: 400px;
     margin: 15px;
 }
 
@@ -13,4 +13,10 @@ mat-grid-list{
     width: 100%;
 }
 
+:host >>> .mat-figure{
+    align-items: start !important;
+  }
 
+  div {
+      align-items: center;
+  }

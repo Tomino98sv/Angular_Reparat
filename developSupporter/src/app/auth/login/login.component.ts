@@ -21,6 +21,7 @@ export class LoginComponent implements OnInit {
     this.firebaseServ.eventAuthError.subscribe(error => {
       this.errorAuth = error;
     });
+    this.errorAuth=null;
     this.loginForm = new FormGroup({
       'email': new FormControl("", [
           Validators.required,
@@ -35,6 +36,7 @@ export class LoginComponent implements OnInit {
   }
 
   onLoginSubmit() {
+    this.errorAuth =null;
     this.user.email = this.loginForm.value.email;
     this.user.password = this.loginForm.value.password;
     

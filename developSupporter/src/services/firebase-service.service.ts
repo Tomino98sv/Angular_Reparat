@@ -4,6 +4,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
+import { error } from 'protractor';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,7 @@ export class FirebaseServiceService {
   eventAuthError = this.authError.asObservable();
   private authComplete = new BehaviorSubject<boolean>(false);
   eventAuthCompletetion = this.authComplete.asObservable();
+  currentError;
 
   newUser: RegisterModel;
 
@@ -36,7 +38,7 @@ export class FirebaseServiceService {
       .then(() => {
         this.authComplete.next(true);
         
-        this.router.navigate(['/']);
+        this.router.navigate(['/login']);
       });
     }).catch(error => {
       this.authError.next(error);
@@ -51,17 +53,27 @@ export class FirebaseServiceService {
   }
 
   login(email:string, password: string) {
+    this.currentError = null;
     this.firAuth.auth.signInWithEmailAndPassword(email, password)
     .catch(error => {
-      this.authError.next(error);
+        this.authError.next(error);
+        this.currentError = error;
     })
     .then((userCredential: firebase.auth.UserCredential) => {
-      console.log(userCredential);
+      if(this.currentError){
+
+      }else {
+
+        console.log("continue");
       
-      localStorage.setItem("uid", userCredential.user.uid);
-      localStorage.setItem("email", userCredential.user.email);
-      localStorage.setItem("username", userCredential.additionalUserInfo.username);
-      localStorage.setItem("password", password);
-    })
+        console.log(userCredential);
+        this.router.navigate(['/account']);
+  
+        localStorage.setItem("uid", userCredential.user.uid);
+        localStorage.setItem("email", userCredential.user.email);
+        localStorage.setItem("username", userCredential.additionalUserInfo.username);
+        localStorage.setItem("password", password);
+      }
+    });
   }
 }
