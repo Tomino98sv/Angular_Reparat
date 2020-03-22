@@ -14,18 +14,21 @@ export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
   hide = true;
   errorAuth: string;
+  loading = false;
 
   constructor(private firebaseServ: FirebaseServiceService) { }
 
   ngOnInit(): void {
     this.firebaseServ.eventAuthError.subscribe(result => {
       this.errorAuth = result;
+      this.loading = false;
     });
     this.errorAuth=null;
-    
+
     this.firebaseServ.eventAuthCompletetion.subscribe(result => {
       if(result) {
         console.log("Done");
+        this.loading = false;
       }else {
         console.log("Horribly wrong");
       }
@@ -55,7 +58,11 @@ export class RegisterComponent implements OnInit {
   }
 
   onRegisterSubmit() {
+
     this.errorAuth =null;
+    this.loading = true;
+
+
     console.log(this.registerForm.value);
     this.user.name = this.registerForm.value.name;
     this.user.email = this.registerForm.value.email;

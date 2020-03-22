@@ -7,6 +7,9 @@ mat-grid-list{
     background-color: rgb(179, 179, 179);
     width: 50%;
     padding: 5%;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
 }
 
 .controles-container > * {
@@ -17,6 +20,11 @@ mat-grid-list{
     align-items: start !important;
   }
 
-  div {
-      align-items: center;
-  }
+mat-form-field {
+    margin-top: 15px;
+
+}
+
+mat-spinner{
+margin: 15px;
+}

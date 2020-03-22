@@ -48,7 +48,7 @@
 
                 <button 
                 mat-raised-button color="warn"
-                [disabled]="loginForm.invalid"
+                [disabled]="loginForm.invalid || loading"
                 >Log in
                 </button>
                 <div *ngIf="errorAuth" class="row mt-4">
@@ -60,6 +60,8 @@
                         </div>
                     </div>
                 </div>
+                <mat-spinner *ngIf="loading"></mat-spinner>
+
             </div>
         </mat-grid-tile>
       

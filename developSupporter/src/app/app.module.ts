@@ -13,6 +13,7 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from 'src/environments/environment.prod';
 import * as firebase from 'firebase';
+import { AuthGuard } from 'src/guards/auth.guard';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,7 @@ BrowserModule,
     AngularFireAuthModule,
     AngularFirestoreModule
   ],
-  providers: [],
+  providers: [AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule {

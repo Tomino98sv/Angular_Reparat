@@ -4,7 +4,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
-import { error } from 'protractor';
+import { first, switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -14,9 +14,10 @@ export class FirebaseServiceService {
   eventAuthError = this.authError.asObservable();
   private authComplete = new BehaviorSubject<boolean>(false);
   eventAuthCompletetion = this.authComplete.asObservable();
-  currentError;
 
   newUser: RegisterModel;
+  fireUser: firebase.User;
+
 
   constructor(
     private firAuth: AngularFireAuth,
@@ -25,6 +26,7 @@ export class FirebaseServiceService {
   ) { }
 
   createUser(user: RegisterModel) {
+
     this.firAuth.auth.createUserWithEmailAndPassword(
       user.email,
       user.password
@@ -53,27 +55,35 @@ export class FirebaseServiceService {
   }
 
   login(email:string, password: string) {
-    this.currentError = null;
     this.firAuth.auth.signInWithEmailAndPassword(email, password)
     .catch(error => {
         this.authError.next(error);
-        this.currentError = error;
     })
     .then((userCredential: firebase.auth.UserCredential) => {
-      if(this.currentError){
-
-      }else {
-
-        console.log("continue");
-      
-        console.log(userCredential);
+      if(userCredential){
+        this.authComplete.next(true);
+        this.fireUser = userCredential.user;
+        sessionStorage.setItem("password", password);
         this.router.navigate(['/account']);
-  
-        localStorage.setItem("uid", userCredential.user.uid);
-        localStorage.setItem("email", userCredential.user.email);
-        localStorage.setItem("username", userCredential.additionalUserInfo.username);
-        localStorage.setItem("password", password);
       }
     });
+  }
+
+  getUserData(): firebase.User {
+    return this.fireUser;
+  }
+
+  isLogged() {
+   if(this.fireUser){
+     return true;
+   }else {
+     return false;
+   }
+  }
+
+  logout() {
+    this.firAuth.auth.signOut();
+    sessionStorage.setItem("password","");
+    this.fireUser = null;
   }
 }

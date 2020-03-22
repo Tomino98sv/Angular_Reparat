@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { RegisterModel } from 'src/app/models/register.model';
 import { FirebaseServiceService } from 'src/services/firebase-service.service';
+import { error } from 'protractor';
 
 
 @Component({
@@ -14,13 +15,24 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   hide = true;
   errorAuth: string;
+  loading =false;
 
   constructor(private firebaseServ: FirebaseServiceService) { }
 
   ngOnInit(): void {
     this.firebaseServ.eventAuthError.subscribe(error => {
       this.errorAuth = error;
+      this.loading = false;
     });
+    this.firebaseServ.eventAuthCompletetion.subscribe(result => {
+      if(result) {
+        console.log("Done");
+        this.loading = false;
+      }else {
+        console.log("Horribly wrong");
+      }
+    });
+
     this.errorAuth=null;
     this.loginForm = new FormGroup({
       'email': new FormControl("", [
@@ -36,6 +48,7 @@ export class LoginComponent implements OnInit {
   }
 
   onLoginSubmit() {
+    this.loading = true;
     this.errorAuth =null;
     this.user.email = this.loginForm.value.email;
     this.user.password = this.loginForm.value.password;
