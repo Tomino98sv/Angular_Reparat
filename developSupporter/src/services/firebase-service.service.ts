@@ -63,7 +63,7 @@ export class FirebaseServiceService {
       if(userCredential){
         this.authComplete.next(true);
         this.fireUser = userCredential.user;
-        sessionStorage.setItem("password", password);
+        localStorage.setItem("password", password);
         this.router.navigate(['/account']);
       }
     });
@@ -83,7 +83,7 @@ export class FirebaseServiceService {
 
   logout() {
     this.firAuth.auth.signOut();
-    sessionStorage.setItem("password","");
+    localStorage.setItem("password","");
     this.fireUser = null;
   }
 }

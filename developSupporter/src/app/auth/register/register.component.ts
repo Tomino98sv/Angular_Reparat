@@ -58,7 +58,6 @@ export class RegisterComponent implements OnInit {
   }
 
   onRegisterSubmit() {
-
     this.errorAuth =null;
     this.loading = true;
 
