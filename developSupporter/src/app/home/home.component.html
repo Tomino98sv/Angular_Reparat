@@ -6,9 +6,21 @@
     <app-issue
     *ngFor ="let issue of issueArray" 
     [data]="issue"
+    (readIssue)="changeState(issue)"
     ></app-issue>
 
     <div class="uploader-status">
-        <mat-spinner *ngIf="issueArray.length === 0"></mat-spinner>
+        <mat-spinner *ngIf="loading"></mat-spinner>
+        <div *ngIf="error" class="row mt-4">
+            <div class="col-12">
+                <div class="row">
+                    <div class= "alert alert-danger">
+                       {{error}}
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
+
 </div>

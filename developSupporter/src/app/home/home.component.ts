@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Issue } from './../entities/issue';
 import { FirebaseServiceService } from 'src/services/firebase-service.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -9,9 +10,12 @@ import { FirebaseServiceService } from 'src/services/firebase-service.service';
 })
 export class HomeComponent implements OnInit {
   issueArray = new Array<Issue>();
- 
+  error = null;
+  loading = true;
 
-  constructor(private service: FirebaseServiceService) { }
+  constructor(
+    private service: FirebaseServiceService,
+    private router: Router) { }
 
   ngOnInit(): void {
     this.service.fetchData()
@@ -29,7 +33,18 @@ export class HomeComponent implements OnInit {
           )
         );
       });
+      this.loading = false;
+    }, error => {
+      this.error = error;
+      this.loading = false;
     });
+  }
+
+  changeState(issue: Issue) {
+    console.log("Accept event");
+    
+    this.service.changeIssue(issue);
+    this.router.navigate(['/home','readIssue']);
   }
 
 }

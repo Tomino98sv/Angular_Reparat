@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Issue } from './../entities/issue';
 
 @Component({
@@ -7,12 +7,17 @@ import { Issue } from './../entities/issue';
   styleUrls: ['./issue.component.css']
 })
 export class IssueComponent implements OnInit {
-
   @Input() data: Issue;
+  @Output() readIssue = new EventEmitter<boolean>();
 
   constructor() { }
 
   ngOnInit(): void {
   }
 
+  readCurrentIssue() {
+    console.log("Emit event");
+    
+    this.readIssue.next(true);
+  }
 }

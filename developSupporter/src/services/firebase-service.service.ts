@@ -18,7 +18,7 @@ export class FirebaseServiceService {
 
   newUser: RegisterModel;
   fireUser: firebase.User;
-
+  currentIssue: Issue;
 
   constructor(
     private firAuth: AngularFireAuth,
@@ -104,4 +104,9 @@ export class FirebaseServiceService {
     .get();
   }
 
+  changeIssue(issue: Issue) {
+    console.log("Issue state chaged");
+    
+    this.currentIssue = issue;
+  }
 }

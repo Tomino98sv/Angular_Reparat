@@ -18,6 +18,7 @@ import { IssueComponent } from './issue/issue.component';
 import { HomeComponent } from './home/home.component';
 import { NewIssueComponent } from './issue/new-issue/new-issue.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ReactToIssueComponent } from './issue/react-to-issue/react-to-issue.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     UserAccountComponent,
     IssueComponent,
     HomeComponent,
-    NewIssueComponent
+    NewIssueComponent,
+    ReactToIssueComponent
   ],
   imports: [
 BrowserModule,
