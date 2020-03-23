@@ -1,6 +1,7 @@
 .container {
     display: flex;
     justify-content: center;
+    
 }
 
 .flexPos {
@@ -8,12 +9,28 @@
     justify-content: flex-start;
     align-items: center;
     flex-direction: column;
-    background-color: cadetblue;
     margin: 15px;
-    width: fit-content;
+    width: 60%;
+    -webkit-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
+    border-radius: 10px 10px 10px 10px;
+    -moz-border-radius: 10px 10px 10px 10px;
+    -webkit-border-radius: 10px 10px 10px 10px;
+    background-color: #7b1fa2;
+
 }
 
 mat-form-field{
     width: 60%;
     margin: 15px;
+    color: white;
+}
+
+button {
+    margin-bottom: 10px;
+}
+
+.uploader-status ::ng-deep .mat-progress-spinner circle, .mat-spinner circle {
+    stroke: white;
 }

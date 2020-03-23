@@ -14,7 +14,6 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     let issue: Issue = new Issue(
-      "SFSFSEFS6E4FSE64F6SE46F",
       "Boris Galcin",
       "SFSFSEFS6E4FSE64F6SE46F",
       "NullPointerException",

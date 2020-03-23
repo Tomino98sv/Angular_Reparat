@@ -7,13 +7,69 @@ class="normal-form"
     <div class="flexPos">
         <mat-form-field>
             <mat-label>
-                header
+                Title of issue
             </mat-label>
             <input
             formControlName="title"
             matInput
             placeholder="issue title">
+            <mat-error *ngIf="issueForm.get('title').touched">
+                <mat-error *ngIf="issueForm.get('title').errors && issueForm.get('title').errors['required']">
+                    Title is <strong>required</strong>
+                </mat-error>
+                <mat-error *ngIf="issueForm.get('title').errors && issueForm.get('title').errors['minlength']">
+                    Title must be at least <strong>3 characters long</strong>
+                </mat-error>
+            </mat-error>
         </mat-form-field>
+        <mat-form-field>
+            <mat-label>
+                Description
+            </mat-label>
+            <textarea
+            formControlName="content"
+            matInput
+            placeholder="issue description">
+        </textarea>
+        <mat-error *ngIf="issueForm.get('content').touched">
+            <mat-error *ngIf="issueForm.get('content').errors && issueForm.get('content').errors['required']">
+                Title is <strong>required</strong>
+            </mat-error>
+            <mat-error *ngIf="issueForm.get('content').errors && issueForm.get('content').errors['minlength']">
+                Description of issue must be at least <strong>5 characters long</strong>
+            </mat-error>
+        </mat-error>
+        </mat-form-field>
+        <button
+        mat-raised-button color="warn"
+        [disabled] = "issueForm.invalid"
+        >
+        Post
+        </button>
+
+        <div class="uploader-status">
+            <mat-spinner *ngIf="loading"></mat-spinner>
+        </div>
+
+        <div *ngIf="error" class="row mt-4">
+            <div class="col-12">
+                <div class="row">
+                    <div class= "alert alert-danger">
+                       {{error}}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="response" class="row mt-4">
+            <div class="col-12">
+                <div class="row">
+                    <div class= "alert alert-success">
+                       Successfully finished
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 </form>
