@@ -98,4 +98,10 @@ export class FirebaseServiceService {
     .add({...data});
   }
 
+  fetchData() {
+    return this.db
+    .collection("Issues")
+    .get();
+  }
+
 }

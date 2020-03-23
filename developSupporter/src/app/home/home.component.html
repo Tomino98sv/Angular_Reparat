@@ -8,4 +8,7 @@
     [data]="issue"
     ></app-issue>
 
+    <div class="uploader-status">
+        <mat-spinner *ngIf="issueArray.length === 0"></mat-spinner>
+    </div>
 </div>

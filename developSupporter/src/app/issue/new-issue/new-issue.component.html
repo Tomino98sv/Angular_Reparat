@@ -10,6 +10,7 @@ class="normal-form"
                 Title of issue
             </mat-label>
             <input
+            (click)="clearAlert()"
             formControlName="title"
             matInput
             placeholder="issue title">
@@ -27,6 +28,7 @@ class="normal-form"
                 Description
             </mat-label>
             <textarea
+            (click)="clearAlert()"
             formControlName="content"
             matInput
             placeholder="issue description">

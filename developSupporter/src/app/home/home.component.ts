@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Issue } from './../entities/issue';
+import { FirebaseServiceService } from 'src/services/firebase-service.service';
 
 @Component({
   selector: 'app-home',
@@ -10,19 +11,25 @@ export class HomeComponent implements OnInit {
   issueArray = new Array<Issue>();
  
 
-  constructor() { }
+  constructor(private service: FirebaseServiceService) { }
 
   ngOnInit(): void {
-    let issue: Issue = new Issue(
-      "Boris Galcin",
-      "SFSFSEFS6E4FSE64F6SE46F",
-      "NullPointerException",
-      "No ta toto mi nejako prejebalo cez hlavu"
-    );
-    this.issueArray.push(issue);
-    this.issueArray.push(issue);
-    this.issueArray.push(issue);
-
+    this.service.fetchData()
+    .subscribe((snapshot) => {
+      snapshot.forEach(doc => {
+        console.log(doc.data());
+        let dataI = doc.data();
+        this.issueArray.push(
+          new Issue(
+            dataI.userName,
+            dataI.uidAuthor,
+            dataI.title,
+            dataI.content,
+            dataI.reactions
+          )
+        );
+      });
+    });
   }
 
 }

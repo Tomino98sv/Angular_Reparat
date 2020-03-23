@@ -50,9 +50,18 @@ export class NewIssueComponent implements OnInit {
       this.loading = false;
       this.response = response;
       this.issueForm.reset();
+      this.issueForm.get("title").setErrors(null);
+      this.issueForm.get("content").setErrors(null);
+
     }, error => {
       this.loading = false;
       this.error = error;
     });
   }
+
+  clearAlert() {
+    this.error = null;
+    this.response = null;
+  }
+
 }
