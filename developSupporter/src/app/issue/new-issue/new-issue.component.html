@@ -1,0 +1,19 @@
+<form 
+[formGroup]="issueForm"
+class="normal-form"
+(ngSubmit)="onNewIssueSubmit()">
+
+<div class="container">
+    <div class="flexPos">
+        <mat-form-field>
+            <mat-label>
+                header
+            </mat-label>
+            <input
+            formControlName="title"
+            matInput
+            placeholder="issue title">
+        </mat-form-field>
+    </div>
+</div>
+</form>

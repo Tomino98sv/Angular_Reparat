@@ -1,0 +1,19 @@
+.container {
+    display: flex;
+    justify-content: center;
+}
+
+.flexPos {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+    background-color: cadetblue;
+    margin: 15px;
+    width: fit-content;
+}
+
+mat-form-field{
+    width: 60%;
+    margin: 15px;
+}

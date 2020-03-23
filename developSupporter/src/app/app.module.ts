@@ -14,18 +14,26 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from 'src/environments/environment.prod';
 import * as firebase from 'firebase';
 import { AuthGuard } from 'src/guards/auth.guard';
+import { IssueComponent } from './issue/issue.component';
+import { HomeComponent } from './home/home.component';
+import { NewIssueComponent } from './issue/new-issue/new-issue.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-    UserAccountComponent
+    UserAccountComponent,
+    IssueComponent,
+    HomeComponent,
+    NewIssueComponent
   ],
   imports: [
 BrowserModule,
     BrowserAnimationsModule,
     MaterialModule,
     AuthModule,
+    ReactiveFormsModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,

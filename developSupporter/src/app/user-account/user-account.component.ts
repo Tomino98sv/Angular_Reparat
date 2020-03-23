@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { RegisterModel } from './../models/register.model';
+import { RegisterModel } from '../entities/register';
 import { FirebaseServiceService } from 'src/services/firebase-service.service';
 import { Router } from '@angular/router';
 
@@ -15,7 +15,7 @@ export class UserAccountComponent implements OnInit {
   constructor(
     private serviceAuth: FirebaseServiceService,
     private route: Router) { }
-
+0
   ngOnInit(): void {
     this.fireUser = this.serviceAuth.getUserData();
     console.log(this.fireUser);

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
-import { RegisterModel } from 'src/app/models/register.model';
+import { RegisterModel } from 'src/app/entities/register';
 import { FirebaseServiceService } from 'src/services/firebase-service.service';
 import { error } from 'protractor';
 

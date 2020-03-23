@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { RegisterModel } from './../../models/register.model';
+import { RegisterModel } from '../../entities/register';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { FirebaseServiceService } from 'src/services/firebase-service.service';
 

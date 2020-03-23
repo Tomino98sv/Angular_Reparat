@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { RegisterModel } from './../app/models/register.model';
+import { RegisterModel } from '../app/entities/register';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';

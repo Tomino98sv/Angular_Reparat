@@ -1,0 +1,11 @@
+<nav class="navSecond">
+    <button class="btn btn-secondary" routerLink="newIssue">Add Issue</button>
+</nav>
+
+<div class="container">
+    <app-issue
+    *ngFor ="let issue of issueArray" 
+    [data]="issue"
+    ></app-issue>
+
+</div>
