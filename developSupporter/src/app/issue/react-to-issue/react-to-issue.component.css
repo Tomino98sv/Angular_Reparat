@@ -1,5 +1,26 @@
 .card {
-    min-width: 60%;
+    min-width: 100%;
     background-color: rgb(179, 179, 179);
+    text-align: center;
+    background-color: #7b1fa2;
 
+}
+
+.container {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+mat-card-header {
+    margin: 0 16px;
+    width: 100%;
+    justify-content: center;
+}
+
+mat-card-content {
+    background-color: rgb(179, 179, 179);
+    padding: 15px;
 }

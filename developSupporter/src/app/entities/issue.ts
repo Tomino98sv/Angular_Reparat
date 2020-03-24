@@ -1,5 +1,6 @@
 export class Issue{
     constructor(
+        public idDoc: string = '',
         public userName: string = '',
         public uidAuthor: string = '',
         public title: string = '',

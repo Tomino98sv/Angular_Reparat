@@ -15,9 +15,7 @@ export class IssueComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  readCurrentIssue() {
-    console.log("Emit event");
-    
+  readCurrentIssue() {    
     this.readIssue.next(true);
   }
 }

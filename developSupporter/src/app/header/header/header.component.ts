@@ -13,8 +13,6 @@ export class HeaderComponent implements OnInit {
   }
 
   clicked() {
-    console.log("Clicked");
-    
   }
 
 }

@@ -1,18 +1,28 @@
-<mat-card class="card">
-    <mat-card-header>
-        <mat-card-title>  
-            TOTO JE REAKT TO ISSUE
+<div class="container">
+    <mat-spinner *ngIf="loading"></mat-spinner>
+    <mat-card class="card" *ngIf="!loading">
+        <mat-card-header>
+            <mat-card-title>  
+                      {{openIssue.title}}
+            </mat-card-title>
+            <mat-card-subtitle>
+                {{openIssue.userName}}
+            </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            {{openIssue.content}}
+        </mat-card-content>
+        <mat-card-actions *ngIf="this.service.isLogged()">
+            <button mat-button (click)="addComment=!addComment">Comment</button>
+        </mat-card-actions>
+    </mat-card>
+    <br>
+    <app-comment-issue *ngIf="addComment" (completedComm)="saveComment($event)"></app-comment-issue>
+    <div *ngFor="let comment of comments">
+        <p>{{comment.authorName}}</p>
+        <p>{{comment.title}}</p>
+        <p>{{comment.content}}</p>
+    </div>
+</div>
 
-                  {{openIssue.title}}
-        </mat-card-title>
-        <mat-card-subtitle>
-            {{openIssue.userName}}
-        </mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-content>
-        {{openIssue.content}}
-    </mat-card-content>
-    <mat-card-actions>
-        <button mat-button>Open</button>
-    </mat-card-actions>
-</mat-card>
+

@@ -15,7 +15,6 @@ export class UserAccountComponent implements OnInit {
   constructor(
     private serviceAuth: FirebaseServiceService,
     private route: Router) { }
-0
   ngOnInit(): void {
     this.fireUser = this.serviceAuth.getUserData();
     console.log(this.fireUser);

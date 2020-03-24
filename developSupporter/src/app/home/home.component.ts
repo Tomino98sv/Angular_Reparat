@@ -20,11 +20,11 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.service.fetchData()
     .subscribe((snapshot) => {
-      snapshot.forEach(doc => {
-        console.log(doc.data());
+      snapshot.forEach(doc => {        
         let dataI = doc.data();
         this.issueArray.push(
           new Issue(
+            doc.id,
             dataI.userName,
             dataI.uidAuthor,
             dataI.title,
@@ -41,10 +41,9 @@ export class HomeComponent implements OnInit {
   }
 
   changeState(issue: Issue) {
-    console.log("Accept event");
-    
-    this.service.changeIssue(issue);
-    this.router.navigate(['/home','readIssue']);
+      this.router.navigate(['/home', 'readIssue'], {queryParams: {
+      id: issue.idDoc
+    }});
   }
 
 }

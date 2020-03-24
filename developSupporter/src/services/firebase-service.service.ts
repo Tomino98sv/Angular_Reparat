@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { first, switchMap } from 'rxjs/operators';
 import { Issue } from './../app/entities/issue';
+import * as firebase from 'firebase';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,6 @@ export class FirebaseServiceService {
 
   newUser: RegisterModel;
   fireUser: firebase.User;
-  currentIssue: Issue;
 
   constructor(
     private firAuth: AngularFireAuth,
@@ -104,9 +104,24 @@ export class FirebaseServiceService {
     .get();
   }
 
-  changeIssue(issue: Issue) {
-    console.log("Issue state chaged");
-    
-    this.currentIssue = issue;
+  getIssueById(id: string) {
+    return this.db.collection("Issues").doc(id).ref.get();
+  }
+
+  pushComment(userId: string, comment: string) {
+    return this.db.collection("Comments").add({"uid": userId,"content": comment});
+  }
+
+  updateIssueReactions(idCom: string, idIssue: string) {
+    return this.db.collection("Issues").doc(idIssue)
+    .update({reactions : firebase.firestore.FieldValue.arrayUnion(idCom)});
+  }
+
+  getComment(idCom: string) {
+    return this.db.collection("Comments").doc(idCom).ref.get();
+  }
+
+  getUserById(uid: string) {
+    return this.db.collection("Users").doc(uid).ref.get();
   }
 }
