@@ -20,6 +20,7 @@ import { NewIssueComponent } from './issue/new-issue/new-issue.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ReactToIssueComponent } from './issue/react-to-issue/react-to-issue.component';
 import { CommentIssueComponent } from './issue/react-to-issue/comment-issue/comment-issue.component';
+import { ReactionComponent } from './issue/react-to-issue/reaction/reaction.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { CommentIssueComponent } from './issue/react-to-issue/comment-issue/comm
     HomeComponent,
     NewIssueComponent,
     ReactToIssueComponent,
-    CommentIssueComponent
+    CommentIssueComponent,
+    ReactionComponent
   ],
   imports: [
 BrowserModule,

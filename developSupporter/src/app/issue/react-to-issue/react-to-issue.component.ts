@@ -14,6 +14,7 @@ export class ReactToIssueComponent implements OnInit {
   comments = new Array<CommentObject>();
   fireUser: firebase.User;
   loading = true;
+  loadingComments = true;
   addComment = false;
 
   constructor(
@@ -63,6 +64,8 @@ export class ReactToIssueComponent implements OnInit {
             this.getAuthorInfoAndPUSH(doc.data());
           });
         });
+      }else {
+        this.loadingComments = false;
       }
     });
     return new Array<CommentObject>();
@@ -75,8 +78,7 @@ export class ReactToIssueComponent implements OnInit {
       comment.authorName = doc.data().name;
       this.comments.push(comment);
       console.log(comment);
-      
-    });
+    }).finally(()=>{this.loadingComments = false;});
   }
 
 }

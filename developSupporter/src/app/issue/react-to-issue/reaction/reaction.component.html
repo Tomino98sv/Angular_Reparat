@@ -1,0 +1,19 @@
+<div class="container">
+
+    <mat-card class="card">
+        <mat-card-header>
+            <mat-card-title>
+                {{commentElement.authorName}}
+            </mat-card-title>
+            <mat-card-subtitle>
+                {{commentElement.title}}
+            </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            {{commentElement.content}}
+        </mat-card-content>
+        <mat-card-actions *ngIf="this.service.isLogged()">
+            <button mat-button>Comment</button>
+        </mat-card-actions>
+    </mat-card>
+</div>

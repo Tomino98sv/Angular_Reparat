@@ -17,12 +17,10 @@
         </mat-card-actions>
     </mat-card>
     <br>
-    <app-comment-issue *ngIf="addComment" (completedComm)="saveComment($event)"></app-comment-issue>
-    <div *ngFor="let comment of comments">
-        <p>{{comment.authorName}}</p>
-        <p>{{comment.title}}</p>
-        <p>{{comment.content}}</p>
-    </div>
 </div>
-
+<app-comment-issue *ngIf="addComment" (completedComm)="saveComment($event)"></app-comment-issue>
+<div class="container">
+    <mat-spinner *ngIf="loadingComments"></mat-spinner>
+</div>
+<app-reaction *ngFor="let comment of comments" [commentElement]= comment></app-reaction>
 
