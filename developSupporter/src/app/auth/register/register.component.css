@@ -44,3 +44,7 @@ margin: 15px;
 .uploader-status ::ng-deep .mat-progress-spinner circle, .mat-spinner circle {
     stroke: white;
 }
+
+button {
+    margin: 15px;
+}

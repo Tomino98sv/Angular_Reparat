@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RegisterModel } from '../../entities/register';
-import { FormGroup, Validators, FormControl } from '@angular/forms';
+import { FormGroup, Validators, FormControl, FormArray, Form } from '@angular/forms';
 import { FirebaseServiceService } from 'src/services/firebase-service.service';
 
 
@@ -23,7 +23,7 @@ export class RegisterComponent implements OnInit {
       this.errorAuth = result;
       this.loading = false;
     });
-    this.errorAuth=null;
+    this.errorAuth = null;
 
     this.firebaseServ.eventAuthCompletetion.subscribe(result => {
       if(result) {
@@ -39,10 +39,15 @@ export class RegisterComponent implements OnInit {
                 Validators.required,
                 Validators.minLength(2)
       ]),
+      'status': new FormControl("", [
+        Validators.required,
+        Validators.minLength(2)
+      ]),
       'email': new FormControl("", [
         Validators.required,
         Validators.email
       ]),
+      'knowledges': new FormArray([]),
       'passwordGroup': new FormGroup({
         'passwordFirst':  new FormControl("", [
           Validators.required,
@@ -53,19 +58,18 @@ export class RegisterComponent implements OnInit {
           Validators.required
         ])
       }, {validators: this.validationRepeatPassword})
-      
     });
+    
   }
 
   onRegisterSubmit() {
-    this.errorAuth =null;
+    this.errorAuth = null;
     this.loading = true;
-
-
-    console.log(this.registerForm.value);
     this.user.name = this.registerForm.value.name;
     this.user.email = this.registerForm.value.email;
     this.user.password = this.registerForm.value.passwordGroup.passwordFirst;
+    this.user.jobstatus = this.registerForm.value.status;
+    this.user.knowledges = this.registerForm.value.knowledges;
 
     this.firebaseServ.createUser(this.user);
   }
@@ -74,5 +78,22 @@ export class RegisterComponent implements OnInit {
     let pass = group.get('passwordFirst').value;
     let confirmPass = group.get('repeatPassword').value;
     return pass === confirmPass ? null : { 'notSame' : true };
+  }
+
+  onAddKnowledge() {
+    const control = new FormControl("",[
+      Validators.minLength(2),
+      Validators.required
+    ]);
+    // let name = "know"+this.knowladgeForm.length;
+    this.knowledgeForm.push(control);
+  }
+
+  onRemoveKnowledge(i: number){
+    this.knowledgeForm.removeAt(i);
+  }
+
+  get knowledgeForm() {
+    return this.registerForm.get('knowledges') as FormArray;
   }
 }

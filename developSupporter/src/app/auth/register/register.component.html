@@ -40,6 +40,64 @@
                             </mat-error>
                         </mat-error>
                 </mat-form-field>
+                <mat-form-field>
+                    <mat-label>
+                        Job Status
+                    </mat-label>
+                    <input 
+                        formControlName="status"
+                        matInput
+                        placeholder="Enter here your status"
+                        >
+                        <mat-hint>HINT: For example unemployed, job position(junior developer)</mat-hint>
+                        <mat-error *ngIf="registerForm.get('status').touched">
+                            <mat-error *ngIf="registerForm.get('status').errors && registerForm.get('status').errors['required']">
+                                Status is <strong>required</strong>
+                            </mat-error>
+                            <mat-error *ngIf="registerForm.get('status').value.length < 2 ">
+                                Status must have at least <strong>2</strong> characters
+                            </mat-error>
+                        </mat-error>
+                </mat-form-field>
+
+
+
+
+        <div formArrayName="knowledges" class="container">
+            <ng-container *ngFor="let knowledgeControl of knowledgeForm.controls; let i=index">
+
+                <mat-form-field>
+                    <mat-label>
+                        Knowledge
+                    </mat-label>
+                    <input 
+                        [formControlName]="i"
+                        matInput
+                        placeholder="Enter here your knowledge"
+                        >
+                        <mat-hint>HINT: Can be knowledges or technologies</mat-hint>
+                        <mat-error *ngIf="knowledgeControl.touched">
+                            <mat-error *ngIf="knowledgeControl.errors && knowledgeControl.errors['required']">
+                                Status is <strong>required</strong>
+                            </mat-error>
+                            <mat-error *ngIf="knowledgeControl.value.length < 2 ">
+                                Status must have at least <strong>2</strong> characters
+                            </mat-error>
+                        </mat-error>
+                </mat-form-field>
+                <mat-icon (click)="onRemoveKnowledge(i)">close</mat-icon>
+
+            </ng-container>
+             </div>
+
+                <button 
+                type="button"
+                mat-raised-button color="basic"
+                (click)="onAddKnowledge()"
+                >Add knowlegde</button>
+
+
+                
                 <ng-container formGroupName="passwordGroup">
                     <mat-form-field>
                         <mat-label>
@@ -91,6 +149,7 @@
                 </ng-container>
                 <hr>
                 <button 
+                type="submit"
                 mat-raised-button color="warn"
                 [disabled]="registerForm.invalid || loading"
                 >Sign Up</button>

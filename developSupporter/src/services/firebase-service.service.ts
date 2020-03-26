@@ -3,7 +3,7 @@ import { RegisterModel } from '../app/entities/register';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { first, switchMap } from 'rxjs/operators';
 import { Issue } from './../app/entities/issue';
 import * as firebase from 'firebase';
@@ -49,9 +49,13 @@ export class FirebaseServiceService {
   }
 
   insertUserData(userCredentials: firebase.auth.UserCredential) {
+    console.log(this.newUser);
+    
     return this.db.doc('Users/'+userCredentials.user.uid).set({
       email: this.newUser.email,
-      name: this.newUser.name
+      name: this.newUser.name,
+      jobstatus: this.newUser.jobstatus,
+      knowledges: JSON.parse(JSON.stringify(this.newUser.knowledges)),
     });
   }
 
@@ -74,6 +78,13 @@ export class FirebaseServiceService {
 
   getUserData(): firebase.User {
     return this.fireUser;
+  }
+
+  getUserDataFromDB(): Promise<firebase.firestore.DocumentSnapshot<firebase.firestore.DocumentData>> {
+    return this.db.collection("Users")
+    .doc(this.fireUser.uid)
+    .ref
+    .get();
   }
 
   isLogged() {

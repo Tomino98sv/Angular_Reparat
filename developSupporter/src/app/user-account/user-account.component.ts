@@ -9,20 +9,17 @@ import { Router } from '@angular/router';
   styleUrls: ['./user-account.component.css']
 })
 export class UserAccountComponent implements OnInit {
-  user= new RegisterModel();
-  fireUser: firebase.User;
+  user = new RegisterModel();
 
   constructor(
     private serviceAuth: FirebaseServiceService,
     private route: Router) { }
   ngOnInit(): void {
-    this.fireUser = this.serviceAuth.getUserData();
-    console.log(this.fireUser);
-    
-    this.user.name=this.fireUser.displayName;
-    this.user.email=this.fireUser.email;
-    this.user.password=localStorage.getItem("password");
-    this.user.name = this.fireUser.displayName;
+    this.serviceAuth.getUserDataFromDB()
+    .then(doc => {
+      this.user = (<RegisterModel>{...doc.data()});
+      this.user.password = localStorage.getItem("password");
+    });
   }
 
   logOut() {

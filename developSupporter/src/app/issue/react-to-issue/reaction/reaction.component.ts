@@ -10,7 +10,7 @@ import { FirebaseServiceService } from 'src/services/firebase-service.service';
 export class ReactionComponent implements OnInit {
   @Input() commentElement = new CommentObject();
 
-  constructor(private service: FirebaseServiceService) { }
+  constructor(public service: FirebaseServiceService) { }
 
   ngOnInit(): void {
   }
