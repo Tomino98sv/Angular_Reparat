@@ -19,6 +19,7 @@ export class FirebaseServiceService {
 
   newUser: RegisterModel;
   fireUser: firebase.User;
+  currentIsue: Issue;
 
   constructor(
     private firAuth: AngularFireAuth,

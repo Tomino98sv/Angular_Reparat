@@ -9,7 +9,13 @@ import { FirebaseServiceService } from 'src/services/firebase-service.service';
   styleUrls: ['./new-issue.component.css']
 })
 export class NewIssueComponent implements OnInit {
-  newIssue = new Issue();
+  newIssue =    new Issue(
+    "",
+    "",
+    {  name: "",jobStatus: "" },
+    "",
+    ""
+  );
   issueForm: FormGroup;
   currentUser: firebase.User;
   loading = false;
@@ -23,7 +29,6 @@ export class NewIssueComponent implements OnInit {
   ngOnInit(): void {
     this.currentUser = this.firebaseServ.getUserData();
     this.newIssue.uidAuthor = this.currentUser.uid;
-    this.newIssue.userName = this.currentUser.displayName;
 
     this.issueForm = new FormGroup({
       'title': new FormControl("",[

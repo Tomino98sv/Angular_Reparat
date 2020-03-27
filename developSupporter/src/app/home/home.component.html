@@ -6,7 +6,7 @@
     <app-issue
     *ngFor ="let issue of issueArray" 
     [data]="issue"
-    (readIssue)="changeState(issue)"
+    (readIssue)="changeState($event)"
     ></app-issue>
 
     <div class="uploader-status">

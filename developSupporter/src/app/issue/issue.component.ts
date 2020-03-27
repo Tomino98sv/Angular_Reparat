@@ -8,14 +8,14 @@ import { Issue } from './../entities/issue';
 })
 export class IssueComponent implements OnInit {
   @Input() data: Issue;
-  @Output() readIssue = new EventEmitter<boolean>();
+  @Output() readIssue = new EventEmitter<string>();
 
   constructor() { }
 
   ngOnInit(): void {
   }
 
-  readCurrentIssue() {    
-    this.readIssue.next(true);
+  readCurrentIssue() {
+    this.readIssue.next(this.data.idDoc);
   }
 }

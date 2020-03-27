@@ -10,7 +10,13 @@ import { CommentObject } from 'src/app/entities/comment';
   styleUrls: ['./react-to-issue.component.css']
 })
 export class ReactToIssueComponent implements OnInit {
-  openIssue: Issue = new Issue();
+  openIssue: Issue = new Issue(
+    "",
+    "",
+    {  name: "",jobStatus: "" },
+    "",
+    ""
+  );
   comments = new Array<CommentObject>();
   fireUser: firebase.User;
   loading = true;
@@ -32,7 +38,6 @@ export class ReactToIssueComponent implements OnInit {
               this.openIssue.title = data.title;
               this.openIssue.content = data.content;
               this.openIssue.uidAuthor = data.uidAuthor;
-              this.openIssue.userName = data.userName;
               this.openIssue.reactions = data.reactions;
       } else {
         console.log("Document with ID: "+this.openIssue.idDoc+" doesn't exists or is unreachable");

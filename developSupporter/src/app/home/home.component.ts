@@ -20,18 +20,21 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.service.fetchData()
     .subscribe((snapshot) => {
-      snapshot.forEach(doc => {        
-        let dataI = doc.data();
-        this.issueArray.push(
-          new Issue(
-            doc.id,
-            dataI.userName,
-            dataI.uidAuthor,
-            dataI.title,
-            dataI.content,
-            dataI.reactions
-          )
-        );
+      snapshot.forEach(docIssue => {
+        let dataI = docIssue.data();
+        this.service.getUserById(dataI.uidAuthor).then(docUser => {
+          let dataU = docUser.data();
+          this.issueArray.push(
+            new Issue(
+              docIssue.id,
+              dataI.uidAuthor,
+              {  name: dataU.name,jobStatus: dataU.jobstatus },
+              dataI.title,
+              dataI.content,
+              dataI.reactions
+            )
+          );
+        });
       });
       this.loading = false;
     }, error => {
@@ -40,9 +43,9 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  changeState(issue: Issue) {
+  changeState(idDocument: string) {
       this.router.navigate(['/home', 'readIssue'], {queryParams: {
-      id: issue.idDoc
+      id: idDocument
     }});
   }
 
