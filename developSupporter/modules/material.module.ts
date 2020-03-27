@@ -7,6 +7,8 @@ import {MatGridListModule} from '@angular/material/grid-list';
 import {MatIconModule} from '@angular/material/icon';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatCardModule} from '@angular/material/card';
+import {MatExpansionModule} from '@angular/material/expansion';
+import {MatDialogModule} from '@angular/material/dialog';
 
 
 @NgModule({
@@ -18,7 +20,9 @@ import {MatCardModule} from '@angular/material/card';
         MatFormFieldModule,
         MatIconModule,
         MatProgressSpinnerModule,
-        MatCardModule
+        MatCardModule,
+        MatExpansionModule,
+        MatDialogModule
     ],
     exports: [
         MatToolbarModule,
@@ -28,7 +32,9 @@ import {MatCardModule} from '@angular/material/card';
         MatFormFieldModule,
         MatIconModule,
         MatProgressSpinnerModule,
-        MatCardModule
+        MatCardModule,
+        MatExpansionModule,
+        MatDialogModule
     ]
 })
 export class MaterialModule{}

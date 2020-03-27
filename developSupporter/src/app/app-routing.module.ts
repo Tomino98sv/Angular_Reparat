@@ -4,6 +4,7 @@ import { HomeComponent } from './home/home.component';
 import { NewIssueComponent } from './issue/new-issue/new-issue.component';
 import { AuthGuard } from 'src/guards/auth.guard';
 import { ReactToIssueComponent } from './issue/react-to-issue/react-to-issue.component';
+import { VisitUserAccountComponent } from './visit-user-account/visit-user-account.component';
 
 
 const routes: Routes = [
@@ -11,14 +12,15 @@ const routes: Routes = [
         children: [
             {path:'', component: HomeComponent},
             {path: 'readIssue', component: ReactToIssueComponent},
-            {path:'newIssue', component: NewIssueComponent, canActivate: [AuthGuard]}
+            {path:'newIssue', component: NewIssueComponent, canActivate: [AuthGuard]},
+            {path: 'visitUser', component: VisitUserAccountComponent}
         ]},
     { path: '**', redirectTo: 'home', pathMatch: "full" }
 ];
 
 @NgModule({
     imports: [
-        RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes)
     ],
     exports: [RouterModule]
 })

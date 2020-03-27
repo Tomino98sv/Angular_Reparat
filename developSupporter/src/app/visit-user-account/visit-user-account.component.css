@@ -7,17 +7,7 @@ mat-accordion {
     display: flex;
     justify-content: center;
 }
+
 .mat-expansion-panel {
     width: 100%;
-}
-.forBtn {
-    display: flex;
-    justify-content: center;
-    margin: 15px;
-}
-
-.spinnerCLass {
-    display: flex;
-    justify-content: center;
-    margin: 15px;
 }

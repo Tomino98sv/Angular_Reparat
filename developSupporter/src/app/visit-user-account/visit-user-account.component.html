@@ -1,6 +1,5 @@
-<div class="spinnerCLass">
-    <mat-spinner     *ngIf="loading; else doneLoad"    ></mat-spinner>
-</div>
+
+<mat-spinner *ngIf="loading; else doneLoad"></mat-spinner>
 <ng-template #doneLoad>
 
 
@@ -10,8 +9,6 @@
                 <p> name: {{user.name}}</p>
                 <br>
                 <p> email: {{user.email}}</p>
-                <br>
-                <p> password: {{user.password}}</p>
                 <br>
                 <p> Job status: {{user.jobstatus}}</p>
             </mat-card-content>
@@ -34,12 +31,9 @@
                 </div>
             </mat-expansion-panel>
           </mat-accordion>
-
-          <div class="forBtn">
-            <div class="btn btn-primary" (click)="logOut()">LogOut</div>
-          </div>
-
     </div>
     <br>
 
 </ng-template>
+
+

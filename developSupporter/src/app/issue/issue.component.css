@@ -1,19 +1,17 @@
 .card {
     min-width: 60%;
     background-color: rgb(179, 179, 179);
+}
 
+mat-card-subtitle {
+    transition: 0.3s;
+    padding: 5px;
+    margin: 5px;
 }
-.card:hover {
-    background-color: rgb(121, 121, 121);
-}
-/* mat-card-header {
-    background-color: #424242;
-}
-mat-card-content {
-    background-color: #424242;
 
+mat-card-subtitle:hover {
+    border-radius: 10px;
+    background-color: rgb(131, 131, 131);
+    color: white;
+    font-weight: bold;
 }
-mat-card-actions {
-    background-color: #424242;
-
-} */

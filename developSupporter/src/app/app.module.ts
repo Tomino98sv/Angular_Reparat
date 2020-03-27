@@ -21,6 +21,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ReactToIssueComponent } from './issue/react-to-issue/react-to-issue.component';
 import { CommentIssueComponent } from './issue/react-to-issue/comment-issue/comment-issue.component';
 import { ReactionComponent } from './issue/react-to-issue/reaction/reaction.component';
+import { VisitUserAccountComponent } from './visit-user-account/visit-user-account.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { ReactionComponent } from './issue/react-to-issue/reaction/reaction.comp
     NewIssueComponent,
     ReactToIssueComponent,
     CommentIssueComponent,
-    ReactionComponent
+    ReactionComponent,
+    VisitUserAccountComponent
   ],
   imports: [
 BrowserModule,

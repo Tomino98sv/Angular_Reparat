@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 })
 export class UserAccountComponent implements OnInit {
   user = new RegisterModel();
+  loading = true;
 
   constructor(
     private serviceAuth: FirebaseServiceService,
@@ -19,7 +20,7 @@ export class UserAccountComponent implements OnInit {
     .then(doc => {
       this.user = (<RegisterModel>{...doc.data()});
       this.user.password = localStorage.getItem("password");
-    });
+    }).finally(()=>{this.loading = false });
   }
 
   logOut() {

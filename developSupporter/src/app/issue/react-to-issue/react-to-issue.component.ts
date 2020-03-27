@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Issue } from './../../entities/issue';
 import { FirebaseServiceService } from 'src/services/firebase-service.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommentObject } from 'src/app/entities/comment';
 
 @Component({
@@ -25,10 +25,11 @@ export class ReactToIssueComponent implements OnInit {
 
   constructor(
     public service: FirebaseServiceService,
-    private route: ActivatedRoute) { }
+    private ActivRoute: ActivatedRoute,
+    private route: Router) { }
 
   ngOnInit(): void {
-    this.openIssue.idDoc = this.route.snapshot.queryParams['id'];
+    this.openIssue.idDoc = this.ActivRoute.snapshot.queryParams['id'];
     this.getReactions(this.openIssue.idDoc);
     this.service.getIssueById(this.openIssue.idDoc)
     .then(doc => {
@@ -88,6 +89,12 @@ export class ReactToIssueComponent implements OnInit {
       this.comments.push(comment);
       console.log(comment);
     }).finally(()=>{this.loadingComments = false;});
+  }
+
+  visitUserAccount() {
+    this.route.navigate(['/home', 'visitUser'], {queryParams: {
+      id: this.openIssue.uidAuthor
+    }});
   }
 
 }

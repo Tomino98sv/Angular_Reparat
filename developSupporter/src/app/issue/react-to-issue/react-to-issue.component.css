@@ -23,3 +23,14 @@ mat-card-content {
     background-color: rgb(179, 179, 179);
     padding: 15px;
 }
+
+mat-card-subtitle {
+    transition: 0.3s;
+}
+
+mat-card-subtitle:hover {
+    border-radius: 10px;
+    background-color: #a224d8;
+    color: white;
+    font-weight: bold;
+}
