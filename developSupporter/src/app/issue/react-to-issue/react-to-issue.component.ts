@@ -34,16 +34,19 @@ export class ReactToIssueComponent implements OnInit {
     .then(doc => {
       if(doc.exists) {
         let data = doc.data();
-
-              this.openIssue.title = data.title;
-              this.openIssue.content = data.content;
-              this.openIssue.uidAuthor = data.uidAuthor;
-              this.openIssue.reactions = data.reactions;
+        this.service.getUserById(data.uidAuthor).then(docUser => {
+          this.openIssue.title = data.title;
+          this.openIssue.content = data.content;
+          this.openIssue.uidAuthor = data.uidAuthor;
+          this.openIssue.reactions = data.reactions;
+          let dataUser = docUser.data();
+          this.openIssue.authorData.name = dataUser.name;
+          this.openIssue.authorData.jobStatus = dataUser.jobstatus;
+        }).finally(() => {this.loading = false; });
       } else {
         console.log("Document with ID: "+this.openIssue.idDoc+" doesn't exists or is unreachable");
+        this.loading = false;
       }
-      this.loading = false;
-
     }).catch(error => {
       console.log(error);
       this.loading = false;
@@ -81,6 +84,7 @@ export class ReactToIssueComponent implements OnInit {
     comment.content = data.content;
     this.service.getUserById(data.uid).then(doc => {
       comment.authorName = doc.data().name;
+      comment.title = doc.data().jobstatus;
       this.comments.push(comment);
       console.log(comment);
     }).finally(()=>{this.loadingComments = false;});
