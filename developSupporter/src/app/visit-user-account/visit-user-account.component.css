@@ -11,3 +11,9 @@ mat-accordion {
 .mat-expansion-panel {
     width: 100%;
 }
+
+.spinnerCLass {
+    display: flex;
+    justify-content: center;
+    margin: 15px;
+}
