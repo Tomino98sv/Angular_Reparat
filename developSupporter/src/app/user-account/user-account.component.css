@@ -21,3 +21,8 @@ mat-accordion {
     justify-content: center;
     margin: 15px;
 }
+
+.formInputs {
+    display: flex;
+    flex-flow: column;
+}

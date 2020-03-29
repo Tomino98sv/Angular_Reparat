@@ -7,6 +7,7 @@
     <div class="container">
         <mat-card>
             <mat-card-content>
+              <div *ngIf="!updating; else changing">
                 <p> name: {{user.name}}</p>
                 <br>
                 <p> email: {{user.email}}</p>
@@ -14,6 +15,96 @@
                 <p> password: {{user.password}}</p>
                 <br>
                 <p> Job status: {{user.jobstatus}}</p>
+              </div>
+              <ng-template #changing>
+               
+                <div class="formInputs">
+                  <mat-form-field>
+                    <mat-label>
+                        Name
+                    </mat-label>
+                    <input
+                    [formControl]="nameControl"
+                    matInput
+                    placeholder="{{user.name}}"
+                    >
+                    <mat-error *ngIf="nameControl.touched">
+                        <mat-error *ngIf="nameControl.errors && nameControl.errors['required']">
+                            Name is <strong>required</strong>
+                        </mat-error>
+                        <mat-error *ngIf="nameControl.errors && nameControl.errors['minlength']">
+                            Name must be at <strong>least 2 characters</strong> long
+                        </mat-error>
+                    </mat-error>
+                </mat-form-field>
+  
+  
+                  <mat-form-field>
+                    <mat-label>
+                        Email
+                    </mat-label>
+                    <input
+                    [formControl]="emailControl"
+                    matInput
+                    placeholder="{{user.email}}"
+                    >
+                    <mat-error *ngIf="emailControl.touched">
+                        <mat-error *ngIf="emailControl.errors && emailControl.errors['required']">
+                            Email is <strong>required</strong>
+                        </mat-error>
+                        <mat-error *ngIf="emailControl.errors && emailControl.errors['email']">
+                          Email must have <strong>valid Form</strong>
+                      </mat-error>
+                    </mat-error>
+                </mat-form-field>
+  
+                <mat-form-field>
+                  <mat-label>
+                      Password
+                  </mat-label>
+                  <input
+                  [formControl]="passwordControl"
+                  matInput
+                  placeholder="{{user.password}}"
+                  [type]="hide ? 'password':'text'" 
+                          >
+                          <mat-icon matSuffix (click)="hide = !hide">
+                              {{hide ? 'visibility' : 'visibility_off'}}
+                            </mat-icon>
+                  <mat-error *ngIf="passwordControl.touched">
+                      <mat-error *ngIf="passwordControl.errors && passwordControl.errors['required']">
+                          Password is <strong>required</strong>
+                      </mat-error>
+                      <mat-error *ngIf="passwordControl.errors && (passwordControl.errors['minlength'] || passwordControl.errors['maxlength'])">
+                        Password must be at <strong>least 6 characters</strong> long and <strong>shorter then 16</strong> characters
+                    </mat-error>
+                  </mat-error>
+              </mat-form-field>
+  
+              <mat-form-field>
+                <mat-label>
+                    Job Status
+                </mat-label>
+                <input
+                [formControl]="jobStatusControl"
+                matInput
+                placeholder="{{user.jobstatus}}"
+                >
+                <mat-error *ngIf="jobStatusControl.touched">
+                    <mat-error *ngIf="jobStatusControl.errors && jobStatusControl.errors['required']">
+                        Job status is <strong>required</strong>
+                    </mat-error>
+                    <mat-error *ngIf="jobStatusControl.errors && jobStatusControl.errors['minlength']">
+                      Job status must be at <strong>least 2 characters</strong> long
+                  </mat-error>
+                </mat-error>
+            </mat-form-field>
+                </div>
+
+              </ng-template>
+                <br>
+                <div class="btn btn-primary" (click)="updating=!updating">Change informations</div>
+
             </mat-card-content>
         </mat-card>
         

@@ -18,7 +18,6 @@ export class FirebaseServiceService {
   eventAuthCompletetion = this.authComplete.asObservable();
 
   newUser: RegisterModel;
-  fireUser: firebase.User;
   currentIsue: Issue;
 
   constructor(
@@ -68,29 +67,34 @@ export class FirebaseServiceService {
     .then((userCredential: firebase.auth.UserCredential) => {
       if(userCredential){
         this.authComplete.next(true);
-        this.fireUser = userCredential.user;
-        localStorage.setItem("user", JSON.stringify(this.fireUser));
-        
+        localStorage.setItem("user", JSON.stringify(userCredential.user));
+        localStorage.setItem("userCredential", JSON.stringify(userCredential));
         localStorage.setItem("password", password);
         this.router.navigate(['/account']);
       }
     });
   }
 
+  getUserCredencial(): firebase.auth.UserCredential{
+     return <firebase.auth.UserCredential> JSON.parse(localStorage.getItem("userCredential"));
+  }
+
   getUserData(): firebase.User {
-    return this.fireUser;
+    var fireUser: firebase.User = JSON.parse(localStorage.getItem("user"));
+    return fireUser;
   }
 
   getUserDataFromDB(): Promise<firebase.firestore.DocumentSnapshot<firebase.firestore.DocumentData>> {
+    var fireUser: firebase.User = JSON.parse(localStorage.getItem("user"));
     return this.db.collection("Users")
-    .doc(this.fireUser.uid)
+    .doc(fireUser.uid)
     .ref
     .get();
   }
 
   isLogged() {
-    this.fireUser = JSON.parse(localStorage.getItem("user"));
-   if(this.fireUser){
+    var fireUser: firebase.User = JSON.parse(localStorage.getItem("user"));
+   if(fireUser){
      return true;
    }else {
      return false;
@@ -101,7 +105,6 @@ export class FirebaseServiceService {
     this.firAuth.auth.signOut();
     localStorage.setItem("user", null);
     localStorage.setItem("password","");
-    this.fireUser = null;
   }
 
   insertPost(data: Issue) {
