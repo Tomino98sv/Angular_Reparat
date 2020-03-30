@@ -1,0 +1,12 @@
+<div mat-dialog-content>
+  <p>Sorry, you must sign in for that purpuse</p>
+</div>
+<div mat-dialog-actions>
+    <div>
+        <button mat-raised-button color="primary" (click)="onLoginClick()" cdkFocusInitial>Login</button>
+        <button mat-button color="primary" (click)="onRegisterClick()">Registration</button>
+    </div>
+    <div>
+        <button mat-button (click)="onNoClick()">No Thanks</button>
+    </div>
+</div>

@@ -42,7 +42,6 @@ export class UserAccountComponent implements OnInit {
 
   logOut() {
     this.serviceAuth.logout();
-    this.route.navigate(['/login']);
   }
 
   initialiseControls() {

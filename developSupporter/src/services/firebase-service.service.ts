@@ -102,9 +102,10 @@ export class FirebaseServiceService {
   }
 
   logout() {
-    this.firAuth.auth.signOut();
-    localStorage.setItem("user", null);
-    localStorage.setItem("password","");
+    this.firAuth.auth.signOut().finally(() => {
+      localStorage.setItem("user", null);
+      localStorage.setItem("password","");});
+    this.router.navigate(['/login']);
   }
 
   insertPost(data: Issue) {
