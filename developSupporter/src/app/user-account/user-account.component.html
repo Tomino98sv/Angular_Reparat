@@ -103,11 +103,21 @@
 
               </ng-template>
                 <br>
-                <div class="btn btn-primary" (click)="updating=!updating">Change informations</div>
-
+                <div *ngIf="!updating" class="btn btn-primary" (click)="updating=!updating">Change informations</div>
+              <div *ngIf="updating" class="divButtons">
+                <div class="btn btn-secondary" (click)="cancelChanges()">Cancel</div>
+                <div class="btn btn-primary" (click)="saveChanges()">Save</div>
+              </div>
+              <br>
+                    <div *ngIf="errorMess" class="alertDialog">
+                        <div class= "alert alert-danger">
+                           {{errorMess}}
+                        </div>
+                        <button class="btn btn-alert" (click)="errorMess=null">Ok</button>
+                    </div>
             </mat-card-content>
         </mat-card>
-        
+
 
     <mat-accordion>
         <mat-expansion-panel >

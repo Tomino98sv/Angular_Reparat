@@ -3,7 +3,7 @@ import { RegisterModel } from '../app/entities/register';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, from, combineLatest, forkJoin } from 'rxjs';
 import { first, switchMap } from 'rxjs/operators';
 import { Issue } from './../app/entities/issue';
 import * as firebase from 'firebase';
@@ -139,4 +139,48 @@ export class FirebaseServiceService {
   getUserById(uid: string) {
     return this.db.collection("Users").doc(uid).ref.get();
   }
+
+  updateEmail(newEmail: string){
+    return this.firAuth.auth.currentUser.updateEmail(newEmail);
+  }
+
+
+  // updateUser(newProfile: RegisterModel) {
+  //   let emailPromise: Observable<any> = null;
+  //   let emailDBPromise: Observable<any> = null;
+  //   let namePromise: Observable<any> = null;
+  //   let nameDBPromise: Observable<any> = null;
+  //   let passwordPromise: Observable<any> = null;
+  //   let jobStatusPromise: Observable<any> = null;
+  //   let neededRequests = new Array<Observable<any>>();
+
+  //   if (!(newProfile.email === "" || newProfile.email === null)) {
+  //     console.log(newProfile.email);
+  //    emailPromise = from(this.firAuth.auth.currentUser.updateEmail(newProfile.email).then(value=> {console.log(value);
+  //    }));
+  //    emailDBPromise = from(this.db.collection("Users").doc(this.getUserData().uid).update({email: newProfile.email}));
+  //    neededRequests.push(emailPromise, emailDBPromise);
+  //   }
+  //   if (!(newProfile.password === "" || newProfile.password === null)) {
+  //     console.log(newProfile.password);
+
+  //     passwordPromise = from(this.firAuth.auth.currentUser.updatePassword(newProfile.password));
+  //     neededRequests.push(passwordPromise);
+  //   }
+  //   if (!(newProfile.name === "" || newProfile.name === null)) {
+  //     console.log(newProfile.name);
+
+  //     namePromise = from(this.firAuth.auth.currentUser.updateProfile({displayName: newProfile.name}));
+  //     nameDBPromise = from(this.db.collection("Users").doc(this.getUserData().uid).update({name: newProfile.name}));
+  //     neededRequests.push(namePromise, nameDBPromise);
+  //   }
+  //   if (!(newProfile.jobstatus === "" || newProfile.jobstatus === null)) {
+  //     console.log(newProfile.jobstatus);
+
+  //     jobStatusPromise = from(this.db.collection("Users").doc(this.getUserData().uid).update({jobstatus: newProfile.jobstatus}));
+  //     neededRequests.push(jobStatusPromise);
+  //   }
+
+  //   return forkJoin(neededRequests);
+  // }
 }

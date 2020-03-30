@@ -7,6 +7,10 @@ mat-accordion {
     display: flex;
     justify-content: center;
 }
+
+mat-form-field {
+    margin-bottom: 15px;
+}
 .mat-expansion-panel {
     width: 100%;
 }
@@ -25,4 +29,10 @@ mat-accordion {
 .formInputs {
     display: flex;
     flex-flow: column;
+}
+.divButtons {
+    display: flex;
+    justify-content: space-between;
+}
+.alertDialog {
 }

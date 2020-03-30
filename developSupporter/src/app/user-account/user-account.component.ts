@@ -3,6 +3,7 @@ import { RegisterModel } from '../entities/register';
 import { FirebaseServiceService } from 'src/services/firebase-service.service';
 import { Router } from '@angular/router';
 import { FormControl, Validators } from '@angular/forms';
+import { error } from 'protractor';
 
 @Component({
   selector: 'app-user-account',
@@ -10,8 +11,11 @@ import { FormControl, Validators } from '@angular/forms';
   styleUrls: ['./user-account.component.css']
 })
 export class UserAccountComponent implements OnInit {
+  errorMess = "";
   hide = true;
   user = new RegisterModel();
+  changedUser = new RegisterModel();
+
   userCredentials: firebase.auth.UserCredential;
   loading = true;
   updating = false;
@@ -47,7 +51,7 @@ export class UserAccountComponent implements OnInit {
       Validators.email
     ]);
     this.emailControl.valueChanges.subscribe(value => {
-      console.log(value);
+      this.changedUser.email = value;
     });
 
     this.nameControl = new FormControl("", [
@@ -55,8 +59,7 @@ export class UserAccountComponent implements OnInit {
       Validators.minLength(2)
     ]);
     this.nameControl.valueChanges.subscribe(value => {
-      console.log(value);
-    });
+      this.changedUser.name = value;    });
 
     this.passwordControl = new FormControl("", [
       Validators.required,
@@ -64,16 +67,44 @@ export class UserAccountComponent implements OnInit {
       Validators.maxLength(15)
     ]);
     this.passwordControl.valueChanges.subscribe(value => {
-      console.log(value);
-    });
+      this.changedUser.password = value;    });
 
     this.jobStatusControl = new FormControl("", [
       Validators.required,
       Validators.minLength(2)
     ]);
     this.jobStatusControl.valueChanges.subscribe(value => {
-      console.log(value);
-    });
+      this.changedUser.jobstatus = value;    });
+  }
+
+  saveChanges() {
+    // this.serviceAuth.updateEmail(this.changedUser.email).then(() => {
+    //   let password: string = localStorage.getItem("password");
+    //   this.serviceAuth.login(this.changedUser.email, password);
+    // });
+
+
+
+    // this.serviceAuth.updateUser(this.changedUser)
+    // .subscribe((result:Array<any>) => {
+    //   // result.forEach(value => {
+    //   //   console.log(value);
+        
+    //   // })
+    //   this.updating = false;
+    // },error => {
+    //   console.log(error);
+    //   this.errorMess = error.message;
+    // });
+  }
+
+  cancelChanges() {
+    this.emailControl.reset();
+    this.passwordControl.reset();
+    this.nameControl.reset();
+    this.jobStatusControl.reset();
+    this.updating = false;
+
   }
 
 }
