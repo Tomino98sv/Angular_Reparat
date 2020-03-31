@@ -29,9 +29,6 @@
                     placeholder="{{user.name}}"
                     >
                     <mat-error *ngIf="nameControl.touched">
-                        <mat-error *ngIf="nameControl.errors && nameControl.errors['required']">
-                            Name is <strong>required</strong>
-                        </mat-error>
                         <mat-error *ngIf="nameControl.errors && nameControl.errors['minlength']">
                             Name must be at <strong>least 2 characters</strong> long
                         </mat-error>
@@ -49,9 +46,6 @@
                     placeholder="{{user.email}}"
                     >
                     <mat-error *ngIf="emailControl.touched">
-                        <mat-error *ngIf="emailControl.errors && emailControl.errors['required']">
-                            Email is <strong>required</strong>
-                        </mat-error>
                         <mat-error *ngIf="emailControl.errors && emailControl.errors['email']">
                           Email must have <strong>valid Form</strong>
                       </mat-error>
@@ -72,9 +66,6 @@
                               {{hide ? 'visibility' : 'visibility_off'}}
                             </mat-icon>
                   <mat-error *ngIf="passwordControl.touched">
-                      <mat-error *ngIf="passwordControl.errors && passwordControl.errors['required']">
-                          Password is <strong>required</strong>
-                      </mat-error>
                       <mat-error *ngIf="passwordControl.errors && (passwordControl.errors['minlength'] || passwordControl.errors['maxlength'])">
                         Password must be at <strong>least 6 characters</strong> long and <strong>shorter then 16</strong> characters
                     </mat-error>
@@ -91,9 +82,6 @@
                 placeholder="{{user.jobstatus}}"
                 >
                 <mat-error *ngIf="jobStatusControl.touched">
-                    <mat-error *ngIf="jobStatusControl.errors && jobStatusControl.errors['required']">
-                        Job status is <strong>required</strong>
-                    </mat-error>
                     <mat-error *ngIf="jobStatusControl.errors && jobStatusControl.errors['minlength']">
                       Job status must be at <strong>least 2 characters</strong> long
                   </mat-error>
@@ -136,12 +124,44 @@
                   Knowledges
                 </mat-panel-description>
               </mat-expansion-panel-header>
+
+
               <div *ngFor="let know of user.knowledges; let i = index">
                 <br>
                 <p class="knowledges"><mat-icon style="margin-right: 5px;" (click)="removeKnow(i)">remove_circle</mat-icon>                  {{know}}</p>
                 </div>
-                  <mat-icon style="margin-right: 5px;" (click)="addKnow()">add_circle</mat-icon>
+                  
+                  
+                  <div *ngIf="addingKnowledge">
+                    <br>
+                    <mat-form-field>
+                      <mat-label>
+                          New knowledge
+                      </mat-label>
+                      <input
+                      [formControl]="addKnowledgeControl"
+                      matInput
+                      placeholder="type brief name of new knowledge"
+                      >
+                      <mat-error *ngIf="addKnowledgeControl.touched">
+                     
+                          <mat-error *ngIf="addKnowledgeControl.errors && addKnowledgeControl.errors['minlength']">
+                            New knowledges must be at <strong>least 2 characters</strong> long
+                        </mat-error>
+                      </mat-error>
+                  </mat-form-field>
+                  <button mat-icon-button [disabled]="addKnowledgeControl.errors" (click)="addKnow()">
+                    <mat-icon  style="margin-right: 5px;">
+                      {{addKnowledgeControl.errors ? 'check_circle_outline' : 'check_circle'}}</mat-icon>                 
+                    </button>
+                  </div>
                   <br>
+                  <mat-icon style="margin-right: 5px;" (click)="addingKnowledge = !addingKnowledge">
+                    {{addingKnowledge ? 'remove_circle' : 'add_circle'}}</mat-icon>
+                  
+                  <br>
+
+
                   <div class="btn btn-primary" (click)="saveKnowledges()">Save</div>
             </mat-expansion-panel>
           </mat-accordion>

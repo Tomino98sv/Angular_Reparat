@@ -13,6 +13,7 @@ import { error } from 'protractor';
 export class UserAccountComponent implements OnInit {
   errorMess = "";
   completeSucc = "";
+  newKnow = "";
   hide = true;
   user = new RegisterModel();
   changedUser = new RegisterModel();
@@ -20,11 +21,14 @@ export class UserAccountComponent implements OnInit {
   userCredentials: firebase.auth.UserCredential;
   loading = true;
   updating = false;
+  addingKnowledge = false;
 
   emailControl: FormControl;
   nameControl: FormControl;
   passwordControl: FormControl;
   jobStatusControl: FormControl;
+
+  addKnowledgeControl: FormControl;
 
   constructor(
     private serviceAuth: FirebaseServiceService,
@@ -47,7 +51,6 @@ export class UserAccountComponent implements OnInit {
 
   initialiseControls() {
     this.emailControl = new FormControl("", [
-      Validators.required,
       Validators.email
     ]);
     this.emailControl.valueChanges.subscribe(value => {
@@ -55,14 +58,12 @@ export class UserAccountComponent implements OnInit {
     });
 
     this.nameControl = new FormControl("", [
-      Validators.required,
       Validators.minLength(2)
     ]);
     this.nameControl.valueChanges.subscribe(value => {
       this.changedUser.name = value;    });
 
     this.passwordControl = new FormControl("", [
-      Validators.required,
       Validators.minLength(6),
       Validators.maxLength(15)
     ]);
@@ -70,11 +71,17 @@ export class UserAccountComponent implements OnInit {
       this.changedUser.password = value;    });
 
     this.jobStatusControl = new FormControl("", [
-      Validators.required,
       Validators.minLength(2)
     ]);
     this.jobStatusControl.valueChanges.subscribe(value => {
       this.changedUser.jobstatus = value;    });
+
+    this.addKnowledgeControl = new FormControl("", [
+      Validators.minLength(2)
+    ]);
+    this.addKnowledgeControl.valueChanges.subscribe(value => {
+         this.newKnow = value;
+    });
   }
 
   saveChanges() {
@@ -110,7 +117,9 @@ export class UserAccountComponent implements OnInit {
   }
 
   addKnow() {
-
+    this.user.knowledges.push(this.newKnow);
+    this.newKnow = "";
+    this.addKnowledgeControl.reset();
   }
 
   removeKnow(index: number) {
