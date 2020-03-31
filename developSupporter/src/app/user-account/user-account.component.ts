@@ -77,24 +77,26 @@ export class UserAccountComponent implements OnInit {
   }
 
   saveChanges() {
-    // this.serviceAuth.updateEmail(this.changedUser.email).then(() => {
-    //   let password: string = localStorage.getItem("password");
-    //   this.serviceAuth.login(this.changedUser.email, password);
-    // });
+    this.serviceAuth.updateUser(this.changedUser)
+    .subscribe((result:Array<any>) => {
 
+      this.serviceAuth.getUserDataFromDB()
+      .then(doc => {
+        this.user = (<RegisterModel>{...doc.data()});
+        this.user.password = localStorage.getItem("password");
+      }).finally(() => {
+        this.emailControl.reset();
+        this.passwordControl.reset();
+        this.nameControl.reset();
+        this.jobStatusControl.reset();
+        this.updating = false;
+        this.serviceAuth.logout();
+      });
 
-
-    // this.serviceAuth.updateUser(this.changedUser)
-    // .subscribe((result:Array<any>) => {
-    //   // result.forEach(value => {
-    //   //   console.log(value);
-        
-    //   // })
-    //   this.updating = false;
-    // },error => {
-    //   console.log(error);
-    //   this.errorMess = error.message;
-    // });
+    },error => {
+      console.log(error);
+      this.errorMess = error.message;
+    });
   }
 
   cancelChanges() {

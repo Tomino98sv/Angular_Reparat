@@ -35,4 +35,5 @@ mat-form-field {
     justify-content: space-between;
 }
 .alertDialog {
+    margin: 15px;
 }

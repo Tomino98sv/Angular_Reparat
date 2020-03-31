@@ -7,6 +7,7 @@ import { BehaviorSubject, Observable, from, combineLatest, forkJoin } from 'rxjs
 import { first, switchMap } from 'rxjs/operators';
 import { Issue } from './../app/entities/issue';
 import * as firebase from 'firebase';
+import { AnimationDurations } from '@angular/material/core';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,6 @@ export class FirebaseServiceService {
   eventAuthCompletetion = this.authComplete.asObservable();
 
   newUser: RegisterModel;
-  currentIsue: Issue;
 
   constructor(
     private firAuth: AngularFireAuth,
@@ -51,7 +51,7 @@ export class FirebaseServiceService {
   insertUserData(userCredentials: firebase.auth.UserCredential) {
     console.log(this.newUser);
     
-    return this.db.doc('Users/'+userCredentials.user.uid).set({
+    return this.db.doc('Users/' + userCredentials.user.uid).set({
       email: this.newUser.email,
       name: this.newUser.name,
       jobstatus: this.newUser.jobstatus,
@@ -59,13 +59,13 @@ export class FirebaseServiceService {
     });
   }
 
-  login(email:string, password: string) {
+  login(email: string, password: string) {
     this.firAuth.auth.signInWithEmailAndPassword(email, password)
     .catch(error => {
         this.authError.next(error);
     })
     .then((userCredential: firebase.auth.UserCredential) => {
-      if(userCredential){
+      if (userCredential){
         this.authComplete.next(true);
         localStorage.setItem("user", JSON.stringify(userCredential.user));
         localStorage.setItem("userCredential", JSON.stringify(userCredential));
@@ -94,7 +94,7 @@ export class FirebaseServiceService {
 
   isLogged() {
     var fireUser: firebase.User = JSON.parse(localStorage.getItem("user"));
-   if(fireUser){
+    if (fireUser){
      return true;
    }else {
      return false;
@@ -104,7 +104,7 @@ export class FirebaseServiceService {
   logout() {
     this.firAuth.auth.signOut().finally(() => {
       localStorage.setItem("user", null);
-      localStorage.setItem("password","");});
+      localStorage.setItem("password", ""); });
     this.router.navigate(['/login']);
   }
 
@@ -125,7 +125,7 @@ export class FirebaseServiceService {
   }
 
   pushComment(userId: string, comment: string) {
-    return this.db.collection("Comments").add({"uid": userId,"content": comment});
+    return this.db.collection("Comments").add({"uid": userId, "content": comment});
   }
 
   updateIssueReactions(idCom: string, idIssue: string) {
@@ -141,47 +141,71 @@ export class FirebaseServiceService {
     return this.db.collection("Users").doc(uid).ref.get();
   }
 
-  updateEmail(newEmail: string){
-    return this.firAuth.auth.currentUser.updateEmail(newEmail);
+  reauthenticate(currentPassword: string, newEmail: string): Promise<firebase.auth.UserCredential> {
+    var user = firebase.auth().currentUser;
+    console.log(user);
+ 
+    if(newEmail){
+      var cred = firebase.auth.EmailAuthProvider.credential(
+        newEmail, currentPassword );
+    }else{
+      var cred = firebase.auth.EmailAuthProvider.credential(
+        user.email, currentPassword );
+    }
+    return user.reauthenticateWithCredential(cred);
   }
 
 
-  // updateUser(newProfile: RegisterModel) {
-  //   let emailPromise: Observable<any> = null;
-  //   let emailDBPromise: Observable<any> = null;
-  //   let namePromise: Observable<any> = null;
-  //   let nameDBPromise: Observable<any> = null;
-  //   let passwordPromise: Observable<any> = null;
-  //   let jobStatusPromise: Observable<any> = null;
-  //   let neededRequests = new Array<Observable<any>>();
+  updateUser(newProfile: RegisterModel) {
+    let emailPromise: Observable<any> = null;
+    let emailDBPromise: Observable<any> = null;
+    let namePromise: Observable<any> = null;
+    let nameDBPromise: Observable<any> = null;
+    let passwordPromise: Observable<any> = null;
+    let jobStatusPromise: Observable<any> = null;
+    let neededRequests = new Array<Observable<any>>();
 
-  //   if (!(newProfile.email === "" || newProfile.email === null)) {
-  //     console.log(newProfile.email);
-  //    emailPromise = from(this.firAuth.auth.currentUser.updateEmail(newProfile.email).then(value=> {console.log(value);
-  //    }));
-  //    emailDBPromise = from(this.db.collection("Users").doc(this.getUserData().uid).update({email: newProfile.email}));
-  //    neededRequests.push(emailPromise, emailDBPromise);
-  //   }
-  //   if (!(newProfile.password === "" || newProfile.password === null)) {
-  //     console.log(newProfile.password);
+    if (!(newProfile.email === "" || newProfile.email === null)) {
+      console.log(newProfile.email);
+      emailPromise = from(this.reauthenticate(localStorage.getItem('password'), null).then(() => {
+      this.firAuth.auth.currentUser.updateEmail(newProfile.email)
+      .then(() => {
+        localStorage.setItem("newEmail",newProfile.email);
+        console.log('Email Updated');
+      }).catch(error1 => {console.log(error1);
+      }).catch(error2 => {console.log(error2);
+      });
+     }));
+      emailDBPromise = from(this.db.collection("Users").doc(this.getUserData().uid).update({email: newProfile.email}));
+      neededRequests.push(emailPromise, emailDBPromise);
+    }
+    if (!(newProfile.password === "" || newProfile.password === null)) {
+      console.log(newProfile.password);
+      passwordPromise = from(this.reauthenticate(localStorage.getItem('password'), null).then(() => {
+        this.firAuth.auth.currentUser.updatePassword(newProfile.password)
+        .then(() => {
+          console.log('Password Updated');
+          localStorage.setItem("password",newProfile.password);
+        }).catch(error1 => {console.log(error1);
+        }).catch(error2 => {console.log(error2);
+        });
+       }));
+      neededRequests.push(passwordPromise);
+    }
+    if (!(newProfile.name === "" || newProfile.name === null)) {
+      console.log(newProfile.name);
 
-  //     passwordPromise = from(this.firAuth.auth.currentUser.updatePassword(newProfile.password));
-  //     neededRequests.push(passwordPromise);
-  //   }
-  //   if (!(newProfile.name === "" || newProfile.name === null)) {
-  //     console.log(newProfile.name);
+      namePromise = from(this.firAuth.auth.currentUser.updateProfile({displayName: newProfile.name}));
+      nameDBPromise = from(this.db.collection("Users").doc(this.getUserData().uid).update({name: newProfile.name}));
+      neededRequests.push(namePromise, nameDBPromise);
+    }
+    if (!(newProfile.jobstatus === "" || newProfile.jobstatus === null)) {
+      console.log(newProfile.jobstatus);
 
-  //     namePromise = from(this.firAuth.auth.currentUser.updateProfile({displayName: newProfile.name}));
-  //     nameDBPromise = from(this.db.collection("Users").doc(this.getUserData().uid).update({name: newProfile.name}));
-  //     neededRequests.push(namePromise, nameDBPromise);
-  //   }
-  //   if (!(newProfile.jobstatus === "" || newProfile.jobstatus === null)) {
-  //     console.log(newProfile.jobstatus);
+      jobStatusPromise = from(this.db.collection("Users").doc(this.getUserData().uid).update({jobstatus: newProfile.jobstatus}));
+      neededRequests.push(jobStatusPromise);
+    }
 
-  //     jobStatusPromise = from(this.db.collection("Users").doc(this.getUserData().uid).update({jobstatus: newProfile.jobstatus}));
-  //     neededRequests.push(jobStatusPromise);
-  //   }
-
-  //   return forkJoin(neededRequests);
-  // }
+    return forkJoin(neededRequests);
+  }
 }

@@ -109,11 +109,12 @@
                 <div class="btn btn-primary" (click)="saveChanges()">Save</div>
               </div>
               <br>
-                    <div *ngIf="errorMess" class="alertDialog">
+                    <div *ngIf="errorMess"  class="alertDialog">
                         <div class= "alert alert-danger">
-                           {{errorMess}}
+                           {{errorMess}} 
+                           <button class="btn btn-danger" (click)="errorMess=null">Ok</button>
+
                         </div>
-                        <button class="btn btn-alert" (click)="errorMess=null">Ok</button>
                     </div>
             </mat-card-content>
         </mat-card>
