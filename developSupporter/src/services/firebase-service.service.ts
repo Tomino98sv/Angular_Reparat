@@ -208,4 +208,9 @@ export class FirebaseServiceService {
 
     return forkJoin(neededRequests);
   }
+
+  updateKnowledges(know: Array<string>) {
+    return this.db.collection("Users").doc(this.getUserData().uid)
+    .update({knowledges: know});
+  }
 }

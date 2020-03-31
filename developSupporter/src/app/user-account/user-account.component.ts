@@ -12,6 +12,7 @@ import { error } from 'protractor';
 })
 export class UserAccountComponent implements OnInit {
   errorMess = "";
+  completeSucc = "";
   hide = true;
   user = new RegisterModel();
   changedUser = new RegisterModel();
@@ -106,6 +107,24 @@ export class UserAccountComponent implements OnInit {
     this.jobStatusControl.reset();
     this.updating = false;
 
+  }
+
+  addKnow() {
+
+  }
+
+  removeKnow(index: number) {
+    this.user.knowledges.splice(index, 1);
+  }
+
+  saveKnowledges() {
+    this.serviceAuth.updateKnowledges(this.user.knowledges)
+    .catch(error => {
+      this.errorMess = error.message;
+    })
+    .then(response => {
+      this.completeSucc = "Success"
+    });
   }
 
 }

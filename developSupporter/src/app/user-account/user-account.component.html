@@ -116,6 +116,12 @@
 
                         </div>
                     </div>
+                    <div *ngIf="completeSucc"  class="alertDialog">
+                      <div class= "alert alert-success">
+                         {{completeSucc}} 
+                         <button class="btn btn-success" (click)="completeSucc=null">Ok</button>
+                      </div>
+                  </div>
             </mat-card-content>
         </mat-card>
 
@@ -130,10 +136,13 @@
                   Knowledges
                 </mat-panel-description>
               </mat-expansion-panel-header>
-              <div *ngFor="let know of user.knowledges">
+              <div *ngFor="let know of user.knowledges; let i = index">
                 <br>
-                <p> {{know}}</p>
+                <p class="knowledges"><mat-icon style="margin-right: 5px;" (click)="removeKnow(i)">remove_circle</mat-icon>                  {{know}}</p>
                 </div>
+                  <mat-icon style="margin-right: 5px;" (click)="addKnow()">add_circle</mat-icon>
+                  <br>
+                  <div class="btn btn-primary" (click)="saveKnowledges()">Save</div>
             </mat-expansion-panel>
           </mat-accordion>
 
