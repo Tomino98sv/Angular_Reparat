@@ -150,9 +150,9 @@
                         </mat-error>
                       </mat-error>
                   </mat-form-field>
-                  <button mat-icon-button [disabled]="addKnowledgeControl.errors" (click)="addKnow()">
+                  <button mat-icon-button [disabled]="addKnowledgeControl.errors || newKnow.length===0" (click)="addKnow()">
                     <mat-icon  style="margin-right: 5px;">
-                      {{addKnowledgeControl.errors ? 'check_circle_outline' : 'check_circle'}}</mat-icon>                 
+                      {{(addKnowledgeControl.errors || newKnow.length===0) ? 'check_circle_outline' : 'check_circle'}}</mat-icon>                 
                     </button>
                   </div>
                   <br>

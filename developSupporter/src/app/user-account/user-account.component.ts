@@ -11,7 +11,7 @@ import { error } from 'protractor';
   styleUrls: ['./user-account.component.css']
 })
 export class UserAccountComponent implements OnInit {
-  errorMess = "";
+  errorMess = null;
   completeSucc = "";
   newKnow = "";
   hide = true;
@@ -80,7 +80,9 @@ export class UserAccountComponent implements OnInit {
       Validators.minLength(2)
     ]);
     this.addKnowledgeControl.valueChanges.subscribe(value => {
-         this.newKnow = value;
+        if(value){
+          this.newKnow = value;
+        }
     });
   }
 
