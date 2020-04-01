@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { FormControl, Validators } from '@angular/forms';
 import { CanComponentDeactivate } from 'src/guards/confirmation.guard';
 import { Observable, of } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogConfirmLeaveComponent } from 'src/dialogs/confirmLeave/dialog-confirmLeave';
 
 @Component({
   selector: 'app-user-account',
@@ -34,7 +36,8 @@ export class UserAccountComponent implements OnInit,CanComponentDeactivate {
 
   constructor(
     private serviceAuth: FirebaseServiceService,
-    private route: Router) { }
+    private route: Router,
+    private dialog: MatDialog) { }
 
 
     canLeave(): boolean | Observable<boolean> | Promise<boolean> {
@@ -42,20 +45,27 @@ export class UserAccountComponent implements OnInit,CanComponentDeactivate {
       const canLeave = this.areThereEquals(this.originalUser.knowledges, this.user.knowledges);  //just test
       if (canLeave) return true;
 
-      const confirmation = window.confirm("You are not saved your change in knowledges");
-      return of(confirmation);
+      return this.openDialog();
+    }
+
+    openDialog(): Observable<boolean> {
+      const dialogRef = this.dialog.open(DialogConfirmLeaveComponent, {
+        width: '250px'
+      });
+      return dialogRef.afterClosed();
     }
 
   ngOnInit(): void {
     this.userCredentials = this.serviceAuth.getUserCredencial();
     this.serviceAuth.getUserDataFromDB()
     .then(doc => {
-      this.user = (<RegisterModel>{...doc.data()});
+      // this.user = (<RegisterModel>{...doc.data()});
+      this.user = doc.data() as RegisterModel;
       this.user.password = localStorage.getItem("password");
-      this.originalUser = (<RegisterModel>{...doc.data()});
-      this.originalUser.password = localStorage.getItem("password");
+      // this.originalUser = (<RegisterModel>{...doc.data()});
     }).finally(() => {
-      this.loading = false 
+      this.loading = false;
+      this.originalUser = {...this.user, knowledges: [...this.user.knowledges]};
     });
 
     this.initialiseControls();
@@ -151,10 +161,13 @@ export class UserAccountComponent implements OnInit,CanComponentDeactivate {
     })
     .then(response => {
       this.completeSucc = "Success"
+      this.originalUser.knowledges = this.user.knowledges;
     });
   }
 
   areThereEquals(original: Array<string>, current: Array<string>): boolean {
+    console.log(original, current);
+    
     let result = true;
     if (original.length === current.length) {
       original.forEach(value => {

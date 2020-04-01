@@ -2,7 +2,7 @@ import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angul
 import { FirebaseServiceService } from 'src/services/firebase-service.service';
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { DialogUnAuthorizedComponent } from 'src/dialogs/dialog-unauthorized';
+import { DialogUnAuthorizedComponent } from 'src/dialogs/unauthorized/dialog-unauthorized';
 
 @Injectable()
 export class AuthGuard implements CanActivate {

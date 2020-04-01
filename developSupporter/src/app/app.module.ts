@@ -22,7 +22,8 @@ import { ReactToIssueComponent } from './issue/react-to-issue/react-to-issue.com
 import { CommentIssueComponent } from './issue/react-to-issue/comment-issue/comment-issue.component';
 import { ReactionComponent } from './issue/react-to-issue/reaction/reaction.component';
 import { VisitUserAccountComponent } from './visit-user-account/visit-user-account.component';
-import { DialogUnAuthorizedComponent } from 'src/dialogs/dialog-unauthorized';
+import { DialogUnAuthorizedComponent } from 'src/dialogs/unauthorized/dialog-unauthorized';
+import { DialogConfirmLeaveComponent } from 'src/dialogs/confirmLeave/dialog-confirmLeave';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,9 @@ import { DialogUnAuthorizedComponent } from 'src/dialogs/dialog-unauthorized';
     CommentIssueComponent,
     ReactionComponent,
     VisitUserAccountComponent,
-    DialogUnAuthorizedComponent
+    DialogUnAuthorizedComponent,
+    DialogConfirmLeaveComponent
+
   ],
   imports: [
 BrowserModule,
