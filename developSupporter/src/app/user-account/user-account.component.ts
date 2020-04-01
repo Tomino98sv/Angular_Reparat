@@ -3,19 +3,21 @@ import { RegisterModel } from '../entities/register';
 import { FirebaseServiceService } from 'src/services/firebase-service.service';
 import { Router } from '@angular/router';
 import { FormControl, Validators } from '@angular/forms';
-import { error } from 'protractor';
+import { CanComponentDeactivate } from 'src/guards/confirmation.guard';
+import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-user-account',
   templateUrl: './user-account.component.html',
   styleUrls: ['./user-account.component.css']
 })
-export class UserAccountComponent implements OnInit {
+export class UserAccountComponent implements OnInit,CanComponentDeactivate {
   errorMess = null;
   completeSucc = "";
   newKnow = "";
   hide = true;
   user = new RegisterModel();
+  originalUser = new RegisterModel();
   changedUser = new RegisterModel();
 
   userCredentials: firebase.auth.UserCredential;
@@ -34,13 +36,27 @@ export class UserAccountComponent implements OnInit {
     private serviceAuth: FirebaseServiceService,
     private route: Router) { }
 
+
+    canLeave(): boolean | Observable<boolean> | Promise<boolean> {
+
+      const canLeave = this.areThereEquals(this.originalUser.knowledges, this.user.knowledges);  //just test
+      if (canLeave) return true;
+
+      const confirmation = window.confirm("You are not saved your change in knowledges");
+      return of(confirmation);
+    }
+
   ngOnInit(): void {
     this.userCredentials = this.serviceAuth.getUserCredencial();
     this.serviceAuth.getUserDataFromDB()
     .then(doc => {
       this.user = (<RegisterModel>{...doc.data()});
       this.user.password = localStorage.getItem("password");
-    }).finally(() => {this.loading = false });
+      this.originalUser = (<RegisterModel>{...doc.data()});
+      this.originalUser.password = localStorage.getItem("password");
+    }).finally(() => {
+      this.loading = false 
+    });
 
     this.initialiseControls();
   }
@@ -136,6 +152,21 @@ export class UserAccountComponent implements OnInit {
     .then(response => {
       this.completeSucc = "Success"
     });
+  }
+
+  areThereEquals(original: Array<string>, current: Array<string>): boolean {
+    let result = true;
+    if (original.length === current.length) {
+      original.forEach(value => {
+        if (!current.includes(value)){
+          result = false;
+        }
+      });
+    } else {
+      result = false;
+    }
+    return result;
+
   }
 
 }
