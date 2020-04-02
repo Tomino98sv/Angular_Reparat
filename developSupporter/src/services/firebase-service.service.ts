@@ -156,6 +156,12 @@ export class FirebaseServiceService {
   }
 
 
+  listenToChanges() {
+    return this.db.collection("Issues")
+    .ref;
+  }
+
+
   updateUser(newProfile: RegisterModel) {
     let emailPromise: Observable<any> = null;
     let emailDBPromise: Observable<any> = null;

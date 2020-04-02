@@ -18,30 +18,62 @@ export class HomeComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit(): void {
-    this.service.fetchData()
-    .subscribe((snapshot) => {
-      snapshot.forEach(docIssue => {
-        let dataI = docIssue.data();
-        this.service.getUserById(dataI.uidAuthor).then(docUser => {
-          let dataU = docUser.data();
-          this.issueArray.push(
-            new Issue(
-              docIssue.id,
-              dataI.uidAuthor,
-              {  name: dataU.name,jobStatus: dataU.jobstatus },
-              dataI.title,
-              dataI.content,
-              dataI.reactions
-            )
-          );
-        });
-      });
-      this.loading = false;
+
+    this.service.listenToChanges().onSnapshot(onSnapshot => {
+      onSnapshot.docChanges().forEach(change => {
+        if (change.type === "added") {
+          console.log("Added issue: ", change.doc.data());
+            let dataI = change.doc.data();
+            this.service.getUserById(dataI.uidAuthor).then(docUser => {
+              let dataU = docUser.data();
+              this.issueArray.push(
+                new Issue(
+                  change.doc.id,
+                  dataI.uidAuthor,
+                  {  name: dataU.name,jobStatus: dataU.jobstatus },
+                  dataI.title,
+                  dataI.content,
+                  dataI.reactions
+                )
+              );
+            });
+
+        }
+        if (change.type === "modified") {
+            console.log("Modified issue: ", change.doc.data());
+            this.issueArray.forEach((item, index) => {
+              if(change.doc.id === item.idDoc) {
+                this.service.getUserById( change.doc.data().uidAuthor).then(docUser => {
+                  let dataU = docUser.data();
+                  let modifyIssue = new Issue(
+                    change.doc.id,
+                    change.doc.data().uidAuthor,
+                    {  name: dataU.name,jobStatus: dataU.jobstatus },
+                    change.doc.data().title,
+                    change.doc.data().content,
+                    change.doc.data().reactions
+                );
+                this.issueArray[index] = modifyIssue;
+                });
+              }
+            });
+        }
+        if (change.type === "removed") {
+            console.log("Removed issue: ", change.doc.data());
+            this.issueArray.forEach((item, index) => {
+              if(change.doc.id === item.idDoc) {
+                this.issueArray.splice(index, 1);
+              }
+            });
+        }
+    },this.loading = false);
     }, error => {
       this.error = error;
       this.loading = false;
     });
   }
+
+
 
   changeState(idDocument: string) {
       this.router.navigate(['/home', 'readIssue'], {queryParams: {
