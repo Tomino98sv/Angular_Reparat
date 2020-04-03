@@ -1,13 +1,11 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { RegisterModel } from '../app/entities/register';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable, from, combineLatest, forkJoin } from 'rxjs';
-import { first, switchMap } from 'rxjs/operators';
+import { BehaviorSubject, Observable, from, forkJoin } from 'rxjs';
 import { Issue } from './../app/entities/issue';
 import * as firebase from 'firebase';
-import { AnimationDurations } from '@angular/material/core';
 
 @Injectable({
   providedIn: 'root'
@@ -138,6 +136,15 @@ export class FirebaseServiceService {
 
   getUserById(uid: string) {
     return this.db.collection("Users").doc(uid).ref.get();
+  }
+
+  deleteComment(idIssue: string, idComment: string) {
+    return this.db
+    .collection("AllComments")
+    .doc(idIssue)
+    .collection("Comments")
+    .doc(idComment)
+    .delete();
   }
 
   reauthenticate(currentPassword: string, newEmail: string): Promise<firebase.auth.UserCredential> {

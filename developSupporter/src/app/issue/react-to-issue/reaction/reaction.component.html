@@ -17,9 +17,9 @@
                 <div class="commClass">
                     <button mat-raised-button color="primary">Comment</button>
                 </div>
-                <div class="manipulClass" *ngIf="myComment">
-                    <button mat-raised-button color="warn">Delete</button>
-                    <button mat-raised-button color="accent">Update</button>
+                <div class="manipulClass" *ngIf="commentElement.logUserCom">
+                    <button mat-raised-button color="warn" (click)="onDeleteComment()">Delete</button>
+                    <button mat-raised-button color="accent" (click)="onUpdateComment()">Update</button>
                 </div>
             </div>
         </mat-card-actions>

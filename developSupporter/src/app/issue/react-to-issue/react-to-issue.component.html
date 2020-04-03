@@ -22,5 +22,5 @@
 <div class="container">
     <mat-spinner *ngIf="loadingComments"></mat-spinner>
 </div>
-<app-reaction *ngFor="let comment of comments" [commentElement]= comment></app-reaction>
+<app-reaction *ngFor="let comment of comments" [commentElement]= comment [issueID]="openIssue.idDoc"></app-reaction>
 

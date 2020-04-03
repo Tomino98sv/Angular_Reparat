@@ -73,9 +73,6 @@ export class ReactToIssueComponent implements OnInit {
         if (change.type === "modified") {
             console.log("Modified issue: ", change.doc.data());
             this.comments.forEach((item, index) => {
-              console.log(change.doc.id);
-              console.log(item.idComment);
-              
               if(change.doc.id === item.idComment) {
 
                 let commentModify = new CommentObject();
@@ -94,8 +91,6 @@ export class ReactToIssueComponent implements OnInit {
         if (change.type === "removed") {
             console.log("Removed issue: ", change.doc.data());
             this.comments.forEach((item, index) => {
-              console.log(change.doc.id);
-              console.log(item.idComment);
               if(change.doc.id === item.idComment) {
                 this.comments.splice(index, 1);
               }
@@ -109,12 +104,15 @@ export class ReactToIssueComponent implements OnInit {
   }
 
   getAuthorInfoAndPUSH(data, idComment) {
+    var fireUser: firebase.User = JSON.parse(localStorage.getItem("user"));
+    var myComment = data.uid === fireUser.uid ? true : false;
     let comment = new CommentObject();
     comment.content = data.content;
     this.service.getUserById(data.uid).then(doc => {
       comment.idComment = idComment;
       comment.authorName = doc.data().name;
       comment.title = doc.data().jobstatus;
+      comment.logUserCom = myComment;
       this.comments.push(comment);
     }).finally(() => {this.loadingComments = false; });
   }
