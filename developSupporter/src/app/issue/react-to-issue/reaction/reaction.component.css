@@ -1,6 +1,22 @@
 .card {
     min-width: 100%;
-    background-color: rgb(179, 179, 179);
+    background-color: rgb(98, 98, 98);
     display: flex;
-    align-items: center;
+    /* align-items: center; */
+}
+
+.actions {
+    display: flex;
+}
+
+.commClass {
+    justify-content: center;
+    display: flex;
+    flex-grow: 1;
+}
+
+.manipulClass {
+    justify-content: flex-end;
+    display: flex;
+    flex-grow: 1;
 }

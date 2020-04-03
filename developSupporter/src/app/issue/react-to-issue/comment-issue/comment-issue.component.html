@@ -1,4 +1,7 @@
 <div class="container">
+    <div class = "closeWindow">
+        <mat-icon class="white-icon" (click)="closeWindow()">close</mat-icon>
+    </div>
     <mat-card class="card">
         <form [formGroup]="contentForm" (ngSubmit)="onSubmit()">
 

@@ -12,8 +12,16 @@
         <mat-card-content>
             {{commentElement.content}}
         </mat-card-content>
-        <mat-card-actions *ngIf="this.service.isLogged()">
-            <button mat-button>Comment</button>
+        <mat-card-actions>
+            <div class="actions" *ngIf="this.service.isLogged()">
+                <div class="commClass">
+                    <button mat-raised-button color="primary">Comment</button>
+                </div>
+                <div class="manipulClass" *ngIf="myComment">
+                    <button mat-raised-button color="warn">Delete</button>
+                    <button mat-raised-button color="accent">Update</button>
+                </div>
+            </div>
         </mat-card-actions>
     </mat-card>
 </div>

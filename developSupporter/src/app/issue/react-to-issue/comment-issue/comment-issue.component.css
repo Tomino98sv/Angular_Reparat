@@ -3,3 +3,13 @@
     display: flex;
     align-items: center;
 }
+.closeWindow {
+    background-color: black;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.white-icon {
+    color: white;
+    margin: 15px;
+}

@@ -9,6 +9,7 @@ import { FirebaseServiceService } from 'src/services/firebase-service.service';
 })
 export class ReactionComponent implements OnInit {
   @Input() commentElement = new CommentObject();
+  myComment: boolean = true;
 
   constructor(public service: FirebaseServiceService) { }
 

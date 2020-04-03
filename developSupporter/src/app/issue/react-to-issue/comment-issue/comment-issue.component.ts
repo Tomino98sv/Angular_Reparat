@@ -8,6 +8,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 })
 export class CommentIssueComponent implements OnInit {
   @Output() completedComm = new EventEmitter<string>();
+  @Output() closeWindowEmit = new EventEmitter<boolean>();
   contentForm: FormGroup;
 
   constructor() { }
@@ -26,6 +27,10 @@ export class CommentIssueComponent implements OnInit {
       this.completedComm.emit(this.contentForm.value.answer);
       this.contentForm.reset();
       this.contentForm.get("answer").setErrors(null);
-    }
+  }
+
+  closeWindow() {
+    this.closeWindowEmit.emit(false);
+  }
 
 }
