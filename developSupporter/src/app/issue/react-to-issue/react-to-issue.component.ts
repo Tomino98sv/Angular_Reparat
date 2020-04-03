@@ -67,21 +67,21 @@ export class ReactToIssueComponent implements OnInit {
     this.service.listenToCommentChanges(idIssue).onSnapshot(onSnapshot => {
       onSnapshot.docChanges().forEach(change => {
         if (change.type === "added") {
-          console.log("Added issue: ", change.doc.data());
+          console.log("Added issue: ", change.doc.id, change.doc.data());
           this.getAuthorInfoAndPUSH(change.doc.data(), change.doc.id);
         }
         if (change.type === "modified") {
-            console.log("Modified issue: ", change.doc.data());
+            console.log("Modified issue: ", change.doc.id, change.doc.data());
             this.comments.forEach((item, index) => {
               if(change.doc.id === item.idComment) {
                 var fireUser: firebase.User = JSON.parse(localStorage.getItem("user"));
                 var myComment = change.doc.data().uid === fireUser.uid ? true : false;
                 let commentModify = new CommentObject();
                 commentModify.content = change.doc.data().content;
-                this.service.getUserById(change.doc.data().uid).then(doc => {
-                  commentModify.idComment = doc.id;
-                  commentModify.authorName = doc.data().name;
-                  commentModify.title = doc.data().jobstatus;
+                this.service.getUserById(change.doc.data().uid).then(docU => {
+                  commentModify.idComment = change.doc.id;
+                  commentModify.authorName = docU.data().name;
+                  commentModify.title = docU.data().jobstatus;
                   commentModify.logUserCom = myComment;
                 }).finally(() => {
                   this.loadingComments = false; 
@@ -91,7 +91,7 @@ export class ReactToIssueComponent implements OnInit {
             });
         }
         if (change.type === "removed") {
-            console.log("Removed issue: ", change.doc.data());
+            console.log("Removed issue: ", change.doc.id, change.doc.data());
             this.comments.forEach((item, index) => {
               if(change.doc.id === item.idComment) {
                 this.comments.splice(index, 1);

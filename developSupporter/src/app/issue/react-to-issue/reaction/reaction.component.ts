@@ -37,6 +37,8 @@ export class ReactionComponent implements OnInit {
   }
 
   onUpdateComment() {
+    console.log("IssueId: ", this.issueID, " commentId: ", this.commentElement.idComment);
+    
     this.loading = true;
     this.service
     .updateCommentContent(this.issueID, this.commentElement.idComment, this.editForm.get("editComment").value)
