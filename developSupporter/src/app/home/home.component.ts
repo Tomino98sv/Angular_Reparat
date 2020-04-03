@@ -32,9 +32,8 @@ export class HomeComponent implements OnInit {
                   dataI.uidAuthor,
                   {  name: dataU.name,jobStatus: dataU.jobstatus },
                   dataI.title,
-                  dataI.content,
-                  dataI.reactions
-                )
+                  dataI.content                
+                  )
               );
             });
 
@@ -50,9 +49,8 @@ export class HomeComponent implements OnInit {
                     change.doc.data().uidAuthor,
                     {  name: dataU.name,jobStatus: dataU.jobstatus },
                     change.doc.data().title,
-                    change.doc.data().content,
-                    change.doc.data().reactions
-                );
+                    change.doc.data().content                
+                    );
                 this.issueArray[index] = modifyIssue;
                 });
               }

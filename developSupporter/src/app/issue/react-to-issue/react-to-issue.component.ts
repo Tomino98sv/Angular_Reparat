@@ -3,6 +3,7 @@ import { Issue } from './../../entities/issue';
 import { FirebaseServiceService } from 'src/services/firebase-service.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommentObject } from 'src/app/entities/comment';
+import { error } from 'protractor';
 
 @Component({
   selector: 'app-react-to-issue',
@@ -39,7 +40,6 @@ export class ReactToIssueComponent implements OnInit {
           this.openIssue.title = data.title;
           this.openIssue.content = data.content;
           this.openIssue.uidAuthor = data.uidAuthor;
-          this.openIssue.reactions = data.reactions;
           let dataUser = docUser.data();
           this.openIssue.authorData.name = dataUser.name;
           this.openIssue.authorData.jobStatus = dataUser.jobstatus;
@@ -57,38 +57,66 @@ export class ReactToIssueComponent implements OnInit {
 
   saveComment(comment: string) {
     this.fireUser = this.service.getUserData();
-    this.service.pushComment(this.fireUser.uid, comment).then(resolte => {
-      this.service.updateIssueReactions(resolte.id, this.openIssue.idDoc).then(result => {
-          alert("Comment successfully sended")
-      });
+    this.service.pushComment(this.openIssue.idDoc,this.fireUser.uid, comment).then(resolte => {
+      alert("Comment successfully sended");
     });
   }
 
-  getReactions(idIssue: string): Array<CommentObject> {
-    this.service.getIssueById(idIssue).then(doc => {
-      if (doc.data().reactions.length !== 0) {
+  getReactions(idIssue: string) {
 
-        doc.data().reactions.forEach(element => {
-          this.service.getComment(element).then(doc => {
-            this.getAuthorInfoAndPUSH(doc.data());
-          });
-        });
-      }else {
-        this.loadingComments = false;
-      }
+    this.service.listenToCommentChanges(idIssue).onSnapshot(onSnapshot => {
+      onSnapshot.docChanges().forEach(change => {
+        if (change.type === "added") {
+          console.log("Added issue: ", change.doc.data());
+          this.getAuthorInfoAndPUSH(change.doc.data(), change.doc.id);
+        }
+        if (change.type === "modified") {
+            console.log("Modified issue: ", change.doc.data());
+            this.comments.forEach((item, index) => {
+              console.log(change.doc.id);
+              console.log(item.idComment);
+              
+              if(change.doc.id === item.idComment) {
+
+                let commentModify = new CommentObject();
+                commentModify.content = change.doc.data().content;
+                this.service.getUserById(change.doc.data().uid).then(doc => {
+                  commentModify.idComment = doc.id;
+                  commentModify.authorName = doc.data().name;
+                  commentModify.title = doc.data().jobstatus;
+                }).finally(() => {
+                  this.loadingComments = false; 
+                  this.comments[index] = commentModify;
+                });
+              }
+            });
+        }
+        if (change.type === "removed") {
+            console.log("Removed issue: ", change.doc.data());
+            this.comments.forEach((item, index) => {
+              console.log(change.doc.id);
+              console.log(item.idComment);
+              if(change.doc.id === item.idComment) {
+                this.comments.splice(index, 1);
+              }
+            });
+        }
+    },this.loadingComments = false);
+    }, error => {
+      alert(error)
+      this.loadingComments = false;
     });
-    return new Array<CommentObject>();
   }
 
-  getAuthorInfoAndPUSH(data) {
+  getAuthorInfoAndPUSH(data, idComment) {
     let comment = new CommentObject();
     comment.content = data.content;
     this.service.getUserById(data.uid).then(doc => {
+      comment.idComment = idComment;
       comment.authorName = doc.data().name;
       comment.title = doc.data().jobstatus;
       this.comments.push(comment);
-      console.log(comment);
-    }).finally(()=>{this.loadingComments = false;});
+    }).finally(() => {this.loadingComments = false; });
   }
 
   visitUserAccount() {

@@ -124,13 +124,12 @@ export class FirebaseServiceService {
     return this.db.collection("Issues").doc(id).ref.get();
   }
 
-  pushComment(userId: string, comment: string) {
-    return this.db.collection("Comments").add({"uid": userId, "content": comment});
-  }
-
-  updateIssueReactions(idCom: string, idIssue: string) {
-    return this.db.collection("Issues").doc(idIssue)
-    .update({reactions : firebase.firestore.FieldValue.arrayUnion(idCom)});
+  pushComment(issueId: string, userId: string, content: string) {
+    return this.db
+    .collection("AllComments")
+    .doc(issueId)
+    .collection("Comments")
+    .add({"uid": userId, "content": content});
   }
 
   getComment(idCom: string) {
@@ -158,6 +157,14 @@ export class FirebaseServiceService {
 
   listenToChanges() {
     return this.db.collection("Issues")
+    .ref;
+  }
+
+  listenToCommentChanges(idIssue: string) {
+    return this.db
+    .collection("AllComments")
+    .doc(idIssue)
+    .collection("Comments")
     .ref;
   }
 

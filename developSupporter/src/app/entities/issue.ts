@@ -9,7 +9,6 @@ export class Issue{
         public uidAuthor: string = '',
         public authorData: InfoAboutAuthor,
         public title: string = '',
-        public content: string = '',
-        public reactions: Array<string> = new Array()
-    ){}
+        public content: string = ''
+        ){}
 }
