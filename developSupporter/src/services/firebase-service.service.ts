@@ -175,6 +175,14 @@ export class FirebaseServiceService {
     .ref;
   }
 
+  updateCommentContent(idIssue: string, idComment: string, newContent) {
+    return this.db
+    .collection("AllComments")
+    .doc(idIssue)
+    .collection("Comments")
+    .doc(idComment)
+    .update({content: newContent});
+  }
 
   updateUser(newProfile: RegisterModel) {
     let emailPromise: Observable<any> = null;

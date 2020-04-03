@@ -74,13 +74,15 @@ export class ReactToIssueComponent implements OnInit {
             console.log("Modified issue: ", change.doc.data());
             this.comments.forEach((item, index) => {
               if(change.doc.id === item.idComment) {
-
+                var fireUser: firebase.User = JSON.parse(localStorage.getItem("user"));
+                var myComment = change.doc.data().uid === fireUser.uid ? true : false;
                 let commentModify = new CommentObject();
                 commentModify.content = change.doc.data().content;
                 this.service.getUserById(change.doc.data().uid).then(doc => {
                   commentModify.idComment = doc.id;
                   commentModify.authorName = doc.data().name;
                   commentModify.title = doc.data().jobstatus;
+                  commentModify.logUserCom = myComment;
                 }).finally(() => {
                   this.loadingComments = false; 
                   this.comments[index] = commentModify;

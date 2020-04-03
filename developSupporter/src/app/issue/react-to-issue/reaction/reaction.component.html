@@ -10,16 +10,45 @@
             </mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
-            {{commentElement.content}}
+            <div *ngIf="editing">
+                <form *ngIf="!loading"[formGroup]="editForm" (ngSubmit)="onUpdateComment()">
+                    <mat-form-field>
+                        <mat-label>
+                            Answer
+                        </mat-label>
+                        <textarea 
+                            formControlName="editComment"
+                            matInput
+                            placeholder="Enter here your comment"
+                            >
+                        </textarea>
+                            <mat-error *ngIf="editForm.get('editComment').touched">
+                                <mat-error *ngIf="editForm.get('editComment').errors && editForm.get('editComment').errors['minlength'] ">
+                                    Content must be <strong>at least 2 character</strong> long.  
+                                </mat-error>
+                                <mat-error *ngIf="editForm.get('editComment').errors && editForm.get('editComment').errors['required'] ">
+                                    Content is <strong>required</strong>.  
+                                </mat-error>
+                            </mat-error>
+                    </mat-form-field>
+                    <button mat-raised-button color="accent" type="submit">Save</button>
+                </form>
+                <div *ngIf="loading" class="uploader-status">
+                    <mat-spinner></mat-spinner>
+                </div>
+            </div>
+            <div *ngIf="!editing">
+                {{commentElement.content}}
+            </div>
         </mat-card-content>
         <mat-card-actions>
             <div class="actions" *ngIf="this.service.isLogged()">
                 <div class="commClass">
-                    <button mat-raised-button color="primary">Comment</button>
+                    <button mat-raised-button color="primary" type="button">Comment</button>
                 </div>
                 <div class="manipulClass" *ngIf="commentElement.logUserCom">
-                    <button mat-raised-button color="warn" (click)="onDeleteComment()">Delete</button>
-                    <button mat-raised-button color="accent" (click)="onUpdateComment()">Update</button>
+                    <button mat-raised-button color="warn" (click)="onDeleteComment()" type="button">Delete</button>
+                    <button mat-raised-button color="{{editing ?'':'accent'}}" (click)="editingMeth()" type="button">{{editing ? 'cancel' : 'Edit'}}</button>
                 </div>
             </div>
         </mat-card-actions>
