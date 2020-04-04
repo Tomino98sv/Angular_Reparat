@@ -2,7 +2,8 @@ import { Component, OnInit, Input } from '@angular/core';
 import { CommentObject } from './../../../entities/comment';
 import { FirebaseServiceService } from 'src/services/firebase-service.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { error } from 'protractor';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogDeleteComponent } from 'src/dialogs/deleteDialog/dialog-delete';
 
 @Component({
   selector: 'app-reaction',
@@ -16,7 +17,9 @@ export class ReactionComponent implements OnInit {
   editing = false;
   loading = false;
 
-  constructor(public service: FirebaseServiceService) { }
+  constructor(
+    public service: FirebaseServiceService,
+    private deleteDialog: MatDialog) { }
 
   ngOnInit(): void { 
     this.editForm = new FormGroup({
@@ -28,7 +31,21 @@ export class ReactionComponent implements OnInit {
   }
 
   onDeleteComment() {
-    this.service.deleteComment(this.issueID, this.commentElement.idComment);
+    this.openDialog();
+  }
+
+  openDialog(): void {
+    const dialogRef = this.deleteDialog.open(DialogDeleteComponent, {
+      width: '250px',
+      data: {
+        idIssue: this.issueID,
+        idComment: this.commentElement.idComment
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
   }
 
   editingMeth() {
@@ -38,7 +55,6 @@ export class ReactionComponent implements OnInit {
 
   onUpdateComment() {
     console.log("IssueId: ", this.issueID, " commentId: ", this.commentElement.idComment);
-    
     this.loading = true;
     this.service
     .updateCommentContent(this.issueID, this.commentElement.idComment, this.editForm.get("editComment").value)

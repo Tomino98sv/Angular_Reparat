@@ -24,6 +24,7 @@ import { ReactionComponent } from './issue/react-to-issue/reaction/reaction.comp
 import { VisitUserAccountComponent } from './visit-user-account/visit-user-account.component';
 import { DialogUnAuthorizedComponent } from 'src/dialogs/unauthorized/dialog-unauthorized';
 import { DialogConfirmLeaveComponent } from 'src/dialogs/confirmLeave/dialog-confirmLeave';
+import { DialogDeleteComponent } from 'src/dialogs/deleteDialog/dialog-delete';
 
 @NgModule({
   declarations: [
@@ -38,11 +39,11 @@ import { DialogConfirmLeaveComponent } from 'src/dialogs/confirmLeave/dialog-con
     ReactionComponent,
     VisitUserAccountComponent,
     DialogUnAuthorizedComponent,
-    DialogConfirmLeaveComponent
-
+    DialogConfirmLeaveComponent,
+    DialogDeleteComponent
   ],
   imports: [
-BrowserModule,
+    BrowserModule,
     BrowserAnimationsModule,
     MaterialModule,
     AuthModule,
