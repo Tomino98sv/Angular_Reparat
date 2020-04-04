@@ -12,7 +12,6 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from 'src/environments/environment.prod';
-import * as firebase from 'firebase';
 import { AuthGuard } from 'src/guards/auth.guard';
 import { IssueComponent } from './issue/issue.component';
 import { HomeComponent } from './home/home.component';
