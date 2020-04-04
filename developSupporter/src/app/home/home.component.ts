@@ -23,16 +23,16 @@ export class HomeComponent implements OnInit {
       onSnapshot.docChanges().forEach(change => {
         if (change.type === "added") {
           console.log("Added issue: ", change.doc.data());
-            let dataI = change.doc.data();
-            this.service.getUserById(dataI.uidAuthor).then(docUser => {
-              let dataU = docUser.data();
+          const dataI = change.doc.data();
+          this.service.getUserById(dataI.uidAuthor).then(docUser => {
+              const dataU = docUser.data();
               this.issueArray.push(
                 new Issue(
                   change.doc.id,
                   dataI.uidAuthor,
-                  {  name: dataU.name,jobStatus: dataU.jobstatus },
+                  {  name: dataU.name, jobStatus: dataU.jobstatus },
                   dataI.title,
-                  dataI.content                
+                  dataI.content
                   )
               );
             });
@@ -43,15 +43,15 @@ export class HomeComponent implements OnInit {
             this.issueArray.forEach((item, index) => {
               if(change.doc.id === item.idDoc) {
                 this.service.getUserById( change.doc.data().uidAuthor).then(docUser => {
-                  let dataU = docUser.data();
-                  let modifyIssue = new Issue(
+                  const dataU = docUser.data();
+                  const modifyIssue = new Issue(
                     change.doc.id,
                     change.doc.data().uidAuthor,
                     {  name: dataU.name,jobStatus: dataU.jobstatus },
                     change.doc.data().title,
-                    change.doc.data().content                
+                    change.doc.data().content
                     );
-                this.issueArray[index] = modifyIssue;
+                  this.issueArray[index] = modifyIssue;
                 });
               }
             });
@@ -64,7 +64,7 @@ export class HomeComponent implements OnInit {
               }
             });
         }
-    },this.loading = false);
+    }, this.loading = false);
     }, error => {
       this.error = error;
       this.loading = false;
